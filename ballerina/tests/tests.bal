@@ -26,6 +26,8 @@ configurable string delete_discountId= ? ;
 // for testBatchUpdate, testBatchRead
 configurable string[] batch_ids= ? ;
 
+// for testBatchArchive
+configurable string[] archive_ids= ? ;
 
 OAuth2RefreshTokenGrantConfig auth = {
        clientId: clientId,
@@ -228,3 +230,82 @@ isolated function testBatchRead() returns error?{
         test:assertFail("Error occurred while batch reading discounts");
     }
 }
+
+
+@test:Config{
+    groups: ["batch_create"]
+}
+isolated function testBatchCreate() returns error?{
+
+    BatchInputSimplePublicObjectInputForCreate payload = {
+        inputs:[
+            {
+                associations:[],
+                properties:{
+                    "hs_label": "test_batch_create_discount_1",
+                    "hs_duration": "ONCE",
+                    "hs_type": "PERCENT",
+                    "hs_value": "10",
+                    "hs_sort_order": "2"
+                }
+            },
+            {
+                associations:[],
+                properties:{
+                    "hs_label": "test_batch_create_discount_2",
+                    "hs_duration": "ONCE",
+                    "hs_type": "PERCENT",
+                    "hs_value": "10",
+                    "hs_sort_order": "3"
+                }
+            },
+            {
+                associations:[],
+                properties:{
+                    "hs_label": "test_batch_create_discount_3",
+                    "hs_duration": "ONCE",
+                    "hs_type": "PERCENT",
+                    "hs_value": "15",
+                    "hs_sort_order": "4"
+                }
+            }
+        ]
+    };
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error batch_create_response = check hubspotClient->/batch/create.post(payload, {});
+
+    if(batch_create_response is BatchResponseSimplePublicObject){
+        test:assertEquals(batch_create_response.status, "COMPLETE", "Batch create failed");
+        test:assertEquals(batch_create_response.results.length(), 3, "Not all the specified discounts are created");
+        test:assertNotEquals(batch_create_response.results[0].id, (), "Create failed as id varies");
+        test:assertNotEquals(batch_create_response.results[1].id, (), "Create failed as id varies");
+        test:assertNotEquals(batch_create_response.results[2].id, (), "Create failed as id varies");
+        test:assertNotEquals(batch_create_response.results[0].properties, (), "Discount properties are not found");
+        test:assertNotEquals(batch_create_response.results[1].properties, (), "Discount properties are not found");
+        test:assertNotEquals(batch_create_response.results[2].properties, (), "Discount properties are not found");
+    } else {
+        test:assertFail("Error occurred while batch creating discounts");
+    }
+}
+
+
+@test:Config{
+    groups: ["batch_archive"]
+}
+isolated function testBatchArchive() returns error?{
+    BatchInputSimplePublicObjectId payload={
+        inputs:[
+            {id:archive_ids[0]},
+            {id:archive_ids[1]},
+            {id:archive_ids[2]}
+        ]
+    };
+
+    http:Response|error batch_archive_response = check hubspotClient->/batch/archive.post(payload, {});
+
+    if batch_archive_response is http:Response{
+        test:assertEquals(batch_archive_response.statusCode, 204, "Batch archive failed");
+    }else {
+        test:assertFail("Error occurred while batch archiving discounts");
+    }
+}
+
