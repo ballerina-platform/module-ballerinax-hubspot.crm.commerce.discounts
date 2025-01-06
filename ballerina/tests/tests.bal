@@ -1,8 +1,7 @@
 import ballerina/test;
 import ballerina/oauth2;
 import ballerina/http;
-import ballerina/io;
-// import ballerina/lang.'string;
+
 
 
 configurable string clientId = ?;
@@ -140,7 +139,6 @@ isolated function testCreate() returns error?{
     };
 
     SimplePublicObject|error create_response = check hubspotClient->/.post(payload, {});
-    io:println(create_response);
     
     if create_response is SimplePublicObject{
         test:assertFalse(create_response.archived?:true, "Discount is archived");
