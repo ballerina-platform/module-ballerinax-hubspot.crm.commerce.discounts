@@ -1,8 +1,8 @@
 import ballerina/test;
 import ballerina/oauth2;
 import ballerina/http;
-
-
+import ballerina/io;
+// import ballerina/lang.'string;
 
 
 configurable string clientId = ?;
@@ -140,7 +140,7 @@ isolated function testCreate() returns error?{
     };
 
     SimplePublicObject|error create_response = check hubspotClient->/.post(payload, {});
-
+    io:println(create_response);
     
     if create_response is SimplePublicObject{
         test:assertFalse(create_response.archived?:true, "Discount is archived");
@@ -309,3 +309,37 @@ isolated function testBatchArchive() returns error?{
     }
 }
 
+
+@test:Config{
+    groups: ["search"]
+}
+isolated function testSearch() returns error?{
+    PublicObjectSearchRequest payload = {
+        sorts: ["hs_value"],
+        query: "test_",
+        'limit: 10,
+        properties: ["hs_label", "hs_value", "hs_type"]
+    };
+
+    CollectionResponseWithTotalSimplePublicObjectForwardPaging|error search_response = check hubspotClient->/search.post(payload, {});
+
+    if search_response is CollectionResponseWithTotalSimplePublicObjectForwardPaging{
+        test:assertNotEquals(search_response.results,[], "No search results found");
+        test:assertTrue(search_response.results.length() <= 10, "Limit Exceeded");
+
+        int i = 0;
+        while (i<10) {
+            test:assertNotEquals(search_response.results[i].id, (), "Discount id is not found");
+            test:assertNotEquals(search_response.results[i].properties, (), "Discount properties are not found");
+            test:assertNotEquals(search_response.results[i].properties["hs_type"], (), "Discount type is not found");
+            test:assertNotEquals(search_response.results[i].properties["hs_value"], (), "Discount value is not found");
+            test:assertEquals(search_response.results[i].properties["hs_label"].toString().substring(0, 5),"test_", "Discount label is not found");
+
+            i = i + 1;
+        }         
+        
+    }else {
+        test:assertFail("Error occurred while searching discounts");
+    }
+    
+}
