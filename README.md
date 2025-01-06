@@ -84,7 +84,68 @@ Navigate to `Auth` tab.
 
 ## Quickstart
 
-[//]: # (TODO: Add a quickstart guide to demonstrate a basic functionality of the module, including sample code snippets.)
+To use the `HubSpot CRM Commerce Discounts` connector in your Ballerina application, update the `.bal` file as follows:
+
+### Step 1: Import the module
+
+Import the `hubspot.crm.commerce.discounts` module and `oauth2` module.
+
+```ballerina
+import ballerinax/hubspot.crm.commerce.discounts;
+import ballerina/oauth2;
+```
+
+### Step 2: Instantiate a new connector
+
+1. Create a `Config.toml` file and, configure the obtained credentials obtained in the above steps as follows:
+
+   ```toml
+    clientId = <Client Id>
+    clientSecret = <Client Secret>
+    refreshToken = <Refresh Token>
+   ```
+
+2. Instantiate a `OAuth2RefreshTokenGrantConfig` with the obtained credentials and initialize the connector with it.
+
+    ```ballerina
+   configurable string clientId = ?;
+   configurable string clientSecret = ?;
+   configurable string refreshToken = ?;
+
+   OAuth2RefreshTokenGrantConfig auth = {
+      clientId,
+      clientSecret,
+      refreshToken,
+      credentialBearer: oauth2:POST_BODY_BEARER 
+   };
+
+   ConnectionConfig config = {auth};
+   final Client hubSpotClient = check new Client(config, "https://api.hubapi.com");
+   ```
+
+### Step 3: Invoke the connector operation
+
+Now, utilize the available connector operations. A sample usecase is shown below.
+
+#### Create a New Ticket
+
+```ballerina
+public function main() returns error? {
+   SimplePublicObjectInputForCreate payload = {
+        associations: [],
+        objectWriteTraceId: "1234",
+        properties: {
+            "hs_label": "test_discount",
+            "hs_duration": "ONCE",
+            "hs_type": "PERCENT",
+            "hs_value": "40",
+            "hs_sort_order": "2"
+        }
+   };
+   return;
+}
+```
+
 
 ## Examples
 
