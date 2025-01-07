@@ -39,7 +39,6 @@ string new_hs_value = "8";
 string new_hs_label = "test_updated_label";
 string new_hs_type = "PERCENT";
 
-
 OAuth2RefreshTokenGrantConfig auth = {
        clientId: clientId,
        clientSecret: clientSecret,
@@ -110,7 +109,6 @@ function testUpdate() returns error?{
             "hs_label": new_hs_label
         }
     };
-
 
     SimplePublicObject|error update_response = check hubspotClient->/[discount_id].patch(payload, {});
     
@@ -311,7 +309,6 @@ function testBatchCreate() returns error?{
     }
 }
 
-
 @test:Config{
     dependsOn: [testBatchUpdate]
 }
@@ -332,7 +329,6 @@ function testBatchArchive() returns error?{
         test:assertFail("Error occurred while batch archiving discounts");
     }
 }
-
 
 @test:Config{
     dependsOn: [testList]
