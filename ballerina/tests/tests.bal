@@ -39,14 +39,15 @@ string new_hs_value = "8";
 string new_hs_label = "test_updated_label";
 string new_hs_type = "PERCENT";
 
-OAuth2RefreshTokenGrantConfig auth = {
-       clientId: clientId,
-       clientSecret: clientSecret,
-       refreshToken: refreshToken,
-       credentialBearer: oauth2:POST_BODY_BEARER // this line should be added in to when you are going to create auth object.
-   };
+ConnectionConfig config = {
+    auth : {
+        clientId, 
+        clientSecret,
+        refreshToken,
+        credentialBearer: oauth2:POST_BODY_BEARER
+    }
+};
 
-ConnectionConfig config = {auth : auth};
 final string serviceURL = isServerLocal ? "localhost:8080" : "https://api.hubapi.com/crm/v3/objects/discounts";
 final Client hubspotClient = check new (config, serviceURL);
 
