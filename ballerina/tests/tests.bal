@@ -21,7 +21,6 @@ import ballerina/test;
 configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
-configurable boolean isServerLocal = false;
 
 // test discount ids for batch and basic endpoints.
 string discount_id = "";
@@ -46,8 +45,7 @@ ConnectionConfig config = {
     }
 };
 
-final string serviceURL = isServerLocal ? "localhost:8080" : "https://api.hubapi.com/crm/v3/objects/discounts";
-final Client hubspotClient = check new (config, serviceURL);
+final Client hubspotClient = check new (config);
 
 @test:Config {
     dependsOn: [testBatchCreate]
