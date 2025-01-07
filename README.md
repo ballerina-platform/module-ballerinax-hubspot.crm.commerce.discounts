@@ -130,24 +130,34 @@ Now, utilize the available connector operations. A sample usecase is shown below
 #### Create a New Discount
 
 ```ballerina
-public function main() returns error? {
-   SimplePublicObjectInputForCreate payload = {
-        associations: [],
-        objectWriteTraceId: "1234",
-        properties: {
-            "hs_label": "test_discount",
-            "hs_duration": "ONCE",
-            "hs_type": "PERCENT",
-            "hs_value": "40",
-            "hs_sort_order": "2"
-        }
-   };
+SimplePublicObjectInputForCreate payload = {
+   associations: [],
+   objectWriteTraceId: "1234",
+   properties: {
+      "hs_label": "test_discount",
+      "hs_duration": "ONCE",
+      "hs_type": "PERCENT",
+      "hs_value": "40",
+      "hs_sort_order": "2"
+   }
+};
 
-   
-   return;
-}
+SimplePublicObject|error create_response = check hubspotClient->/.post(payload, {});
+
 ```
 
+#### List all discounts
+
+```ballerina
+GetCrmV3ObjectsDiscountsQueries params = {
+   'limit: 10,
+   archived: false,
+   properties: ["hs_label", "hs_value", "hs_type"]
+};
+
+CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error response = check hubspotClient->/.get({}, params);
+
+```
 
 ## Examples
 
