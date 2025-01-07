@@ -9,14 +9,16 @@ configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 configurable boolean isServerLocal = false; 
 
-
+// test discount ids for batch and basic endpoints.
 string discount_id = "";
 string[] batch_discount_ids = [];
 
+// discount properties for basic create
 string hs_value = "";
 string hs_label = "";
 string hs_type = "";
 
+// discount properties for update
 string new_hs_value = "8";
 string new_hs_label = "test_updated_label";
 string new_hs_type = "PERCENT";
