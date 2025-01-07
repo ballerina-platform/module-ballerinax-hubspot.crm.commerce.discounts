@@ -104,15 +104,15 @@ import ballerina/oauth2;
    configurable string clientSecret = ?;
    configurable string refreshToken = ?;
 
-   OAuth2RefreshTokenGrantConfig auth = {
-      clientId,
-      clientSecret,
-      refreshToken,
-      credentialBearer: oauth2:POST_BODY_BEARER 
+   ConnectionConfig config = {
+      auth: {
+         clientId,
+         clientSecret,
+         refreshToken,
+         credentialBearer: oauth2:POST_BODY_BEARER
+      }
    };
-
-   ConnectionConfig config = {auth};
-   final Client hubSpotClient = check new (config, "https://api.hubapi.com");
+   final Client hubSpotClient = check new (config);
    ```
 
 2. Create a `Config.toml` file and, configure the obtained credentials obtained in the above steps as follows:
