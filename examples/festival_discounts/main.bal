@@ -24,31 +24,29 @@ public function main(){
     string[] discountIds = [];
 
     // create a batch of discounts
-    discounts:SimplePublicObjectInputForCreate discount_1 = {
-        associations: [],
-        objectWriteTraceId: "1234",
-        properties: {
-            "hs_label": "festive_discount_1",
-            "hs_duration": "ONCE",
-            "hs_type": "PERCENT",
-            "hs_value": "10",
-            "hs_sort_order": "2"
-        }
-    };
-    discounts:SimplePublicObjectInputForCreate discount_2 = {
-        associations: [],
-        objectWriteTraceId: "1234",
-        properties: {
-            "hs_label": "festive_discount_2",
-            "hs_duration": "ONCE",
-            "hs_type": "PERCENT",
-            "hs_value": "6",
-            "hs_sort_order": "2"
-        }
-    };
-
     discounts:BatchInputSimplePublicObjectInputForCreate payload = {
-        inputs: [discount_1, discount_2]
+        inputs: [
+            {
+                associations: [],
+                properties: {
+                    "hs_label": "festival_discount_1",
+                    "hs_duration": "ONCE",
+                    "hs_type": "PERCENT",
+                    "hs_value": "10",
+                    "hs_sort_order": "2"
+                }
+            },
+            {
+                associations: [],
+                properties: {
+                    "hs_label": "festival_discount_2",
+                    "hs_duration": "ONCE",
+                    "hs_type": "PERCENT",
+                    "hs_value": "6",
+                    "hs_sort_order": "3"
+                }
+            }
+        ]
     };
 
     discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors|error batch_create_response = hubspotClient->/batch/create.post(payload, {});
@@ -89,14 +87,14 @@ public function main(){
                 id: discountIds[0],
                 properties: {
                     "hs_value": "30",
-                    "hs_label": "test_batch_discount_update_1"
+                    "hs_label": "festival_batch_discount_update_1"
                 }
             },
             {
                 id: discountIds[1],
                 properties: {
                     "hs_value": "40",
-                    "hs_label": "test_batch_discount_update_2"
+                    "hs_label": "festival_batch_discount_update_2"
                 }
             }
         ]
@@ -115,8 +113,8 @@ public function main(){
     // search for a discount
     discounts:PublicObjectSearchRequest search_payload = {
         sorts: ["hs_value"],
-        query: "festival",
-        'limit: 10,
+        query: "festival_batch_discount_update_",
+        'limit: 5,
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
@@ -124,7 +122,7 @@ public function main(){
 
     if (search_response is discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging) {
         foreach discounts:SimplePublicObject obj in search_response.results {
-            io:println("Discount found with id: " + obj.id.toString());
+            io:println("Discount found from search with id: " + obj.id.toString());
         }
     } else {
         io:println("Error occurred while searching for discounts");
@@ -134,8 +132,7 @@ public function main(){
     discounts:BatchInputSimplePublicObjectId batch_archive_payload = {
         inputs: [
             {id: discountIds[0]},
-            {id: discountIds[1]},
-            {id: discountIds[2]}
+            {id: discountIds[1]}
         ]
     };
 
@@ -144,7 +141,7 @@ public function main(){
         if (batch_archive_response.statusCode == 204) {
             io:println("Discounts archived successfully");
         } else {
-            io:println("Error occurred while archiving discounts");
+            io:println("Archiving failed");
         }
     } else {
         io:println("Error occurred while archiving discounts");
