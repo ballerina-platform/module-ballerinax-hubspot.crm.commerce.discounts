@@ -1,14 +1,20 @@
 # Examples
 
-The `ballerinax/hubspot.crm.commerce.discounts` connector provides practical examples illustrating usage in various scenarios.
+The `ballerinax/hubspot.crm.commerce.discounts` connector provides means to create and to manage discounts in various scenarios.
 
-[//]: # (TODO: Add examples)
-1. 
-2. 
+1. [Discount Manager](/examples/discount_manager) - see how the Hubspot API can be used to create discount and manage it through endpoints.
+2. [Festival Discounts](/examples/festival_discounts) - see how the Hubspot API can be used to create and to manage multiple discounts at a time.
 
 ## Prerequisites
 
-[//]: # (TODO: Add prerequisites)
+1. Generate hubspot credentials to authenticate the connector as described in the [setup guide](./../README.md).
+
+2. For each example, create a `Config.toml` file with the related configuration. Here's an example of how your `Config.toml `file should look:
+    ```toml
+    clientId = "<Client ID>"
+    clientSecret = "<Client Secret>"
+    refreshToken = "<Access Token>"
+    ```
 
 ## Running an example
 
