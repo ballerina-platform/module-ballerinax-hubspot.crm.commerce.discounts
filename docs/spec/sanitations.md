@@ -1,6 +1,6 @@
 _Author_:  Pranavan Subendiran \
-_Created_: 17th Dec 2024 \
-_Updated_: 19th Dec 2024 \
+_Created_: 2024/12/17 \
+_Updated_: 2024/12/19 \
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
