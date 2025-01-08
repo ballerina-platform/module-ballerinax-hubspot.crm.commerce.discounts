@@ -137,7 +137,7 @@ function testCreate() returns error? {
     test:assertFalse(create_response.id == "", "Discount id is not valid");
 
     discount_id = create_response.id;
-    
+
     test:assertEquals(create_response.properties["hs_label"], "test_discount", "Discount label is not correct");
     test:assertEquals(create_response.properties["hs_value"], "40", "Discount value is not correct");
     test:assertEquals(create_response.properties["hs_type"], "PERCENT", "Discount type is not correct");
@@ -312,7 +312,7 @@ function testSearch() returns error? {
         test:assertNotEquals(search_response.results[i].properties["hs_type"], (), "Discount type is not found");
         test:assertNotEquals(search_response.results[i].properties["hs_value"], (), "Discount value is not found");
         test:assertEquals(search_response.results[i].properties["hs_label"].toString().substring(0, 5), "test_", "Discount label is not found");
-        
+
         i = i + 1;
     }
 }
