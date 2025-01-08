@@ -146,5 +146,4 @@ public function main(){
     } else {
         io:println("Error occurred while archiving discounts");
     }
-    
 }
