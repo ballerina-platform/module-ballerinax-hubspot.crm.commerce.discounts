@@ -10,7 +10,7 @@
 
 [HubSpot](https://www.hubspot.com/our-story) is an AI-powered customer relationship management (CRM) platform. 
 
-The ballerinax/hubspot.crm.commerce.discounts offers APIs to connect and interact with the [discounts](https://developers.hubspot.com/docs/guides/api/crm/commerce/discounts#post-%2Fcrm%2Fv3%2Fobjects%2Fdiscounts) endpoints, specifically based on the [API Docs](https://developers.hubspot.com/docs/reference/api/crm/commerce/discounts)
+The `ballerinax/hubspot.crm.commerce.discounts` connector offers APIs to connect and interact with the [Hubspot Discounts API](https://developers.hubspot.com/docs/guides/api/crm/commerce/discounts) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
 
 
 ## Setup guide
