@@ -15,11 +15,8 @@
 // under the License.
 
 import ballerina/http;
-import ballerina/log;
 
-listener http:Listener httpListener = new (9090);
-
-http:Service mockService = service object {
+service on new http:Listener(9090){
 
     resource isolated function get .(map<string|string[]> headers = {}) returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error {
         CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = {
@@ -142,13 +139,3 @@ http:Service mockService = service object {
         return response;
     };
 };
-
-function init() returns error? {
-    if isLiveServer {
-        log:printInfo("Skipping mock server initialization as the tests are running on live server");
-        return;
-    }
-    log:printInfo("Initiating mock server");
-    check httpListener.attach(mockService, "/");
-    check httpListener.'start();
-}
