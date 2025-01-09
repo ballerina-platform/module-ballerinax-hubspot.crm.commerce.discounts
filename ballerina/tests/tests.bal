@@ -22,6 +22,9 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
+configurable boolean isLiveServer = ?;
+string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/discounts" : "http://localhost:9090";
+
 // test discount ids for batch and basic endpoints.
 string discount_id = "";
 string[] batch_discount_ids = [];
@@ -45,11 +48,14 @@ ConnectionConfig config = {
     }
 };
 
-final Client hubspotClient = check new (config);
+final Client hubspotClient = check new (config, serviceUrl);
 
-@test:Config {
-    dependsOn: [testBatchCreate]
-}
+@test:Config{
+    groups: ["mocks"]
+} 
+// {
+//     dependsOn: [testBatchCreate]
+// }
 function testList() returns error? {
 
     GetCrmV3ObjectsDiscountsQueries params = {
@@ -290,7 +296,7 @@ function testBatchArchive() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testList]
+    dependsOn: [testBatchCreate]
 }
 function testSearch() returns error? {
     PublicObjectSearchRequest payload = {
