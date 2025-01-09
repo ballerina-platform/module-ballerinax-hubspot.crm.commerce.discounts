@@ -6,7 +6,7 @@ _Edition_: Swan Lake
 # Sanitation for OpenAPI specification
 
 This document records the sanitation done on top of the official OpenAPI specification from HubSpot CRM Commerce Discounts. 
-The OpenAPI specification is obtained from (TODO: Add source link).
+The OpenAPI specification is obtained from [here](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/CRM/Discounts/Rollouts/424/v3/discounts.json).
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
 
