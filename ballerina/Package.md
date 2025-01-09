@@ -1,5 +1,3 @@
-# Ballerina HubSpot CRM Commerce Discounts connector
-
 ## Overview
 
 [HubSpot](https://www.hubspot.com/our-story) is an AI-powered customer relationship management (CRM) platform. 
@@ -27,7 +25,7 @@ You need a [HubSpot developer account](https://developers.hubspot.com/get-starte
 
    ![Entering App details](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/enter_app_details.png)
 
-- Then move to Auth tab.
+- Then move to "Auth" tab.
 
 5. Setup the "Redirect URLs" with respective links.
    >Example: http://localhost:9090  
@@ -43,12 +41,12 @@ Navigate to "Auth" tab.
 
 ### Step 3: Get access token and refresh token.
 
-1. Set scopes under Auth tab for your app based on the [API requirements](https://developers.hubspot.com/docs/reference/api).
+1. Set scopes under "Auth" tab for your app based on the [API requirements](https://developers.hubspot.com/docs/reference/api).
 
    >Example: https://developers.hubspot.com/docs/reference/api/crm/commerce/discounts
    ![API Reference page](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/exmaple_api_reference.png)
 
-2. Under Auth tab under Sample install URL (OAuth) section copy the full URL.
+2. Under "Auth" tab under Sample install URL (OAuth) section copy the full URL.
    >**Note:** The above copied URL is in the following format.
    ```
    https://app.hubspot.com/oauth/authorize?client_id=<client_id>&redirect_uri=<redirect_url>&scope=<scopes>
@@ -78,7 +76,7 @@ Navigate to "Auth" tab.
 
 ## Quickstart
 
-To use the HubSpot CRM Commerce Discounts connector in your Ballerina application, update the .bal file as follows:
+Follow the below steps to use the `HubSpot CRM Commerce Discounts` connector in your Ballerina application.
 
 ### Step 1: Import the module
 
@@ -109,7 +107,7 @@ import ballerinax/hubspot.crm.commerce.discounts;
    final Client hubSpotClient = check new (config);
    ```
 
-2. Create a Config.toml file and, configure the obtained credentials obtained in the above steps as follows:
+2. Create a `Config.toml` file inside the Ballerina package and add the following configurations with the values retrieved in the earlier steps.
 
    ```toml
     clientId = <Client Id>
@@ -119,7 +117,7 @@ import ballerinax/hubspot.crm.commerce.discounts;
 
 ### Step 3: Invoke the connector operation
 
-Now, utilize the available connector operations. A sample usecase is shown below.
+Now, utilize the available connector operations. A sample use case is shown below.
 
 #### Create a New Discount
 
