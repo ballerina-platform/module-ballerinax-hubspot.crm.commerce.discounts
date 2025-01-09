@@ -2,8 +2,8 @@
 
 The `ballerinax/hubspot.crm.commerce.discounts` connector provides means to create and to manage discounts in various scenarios.
 
-1. [Discount Manager](/examples/discount_manager) - see how the Hubspot API can be used to create discount and manage it through endpoints.
-2. [Festival Discounts](/examples/festival_discounts) - see how the Hubspot API can be used to create and to manage multiple discounts at a time.
+1. [Discount Manager](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/discount_manager) - see how the Hubspot API can be used to create discount and manage it through endpoints.
+2. [Festival Discounts](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/festival_discounts) - see how the Hubspot API can be used to create and to manage multiple discounts at a time.
 
 ## Prerequisites
 
