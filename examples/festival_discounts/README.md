@@ -1,6 +1,6 @@
 ## Festival Discounts
 
-This use case demonstrates how the `hubspot.crm.commerce.discounts` API can be used to create and manage a batch of discount at a time. This example involves a sequence of actions that leverage the Hubspot CRM API v3 to demonstrate the process of creating, fetching, updating,archiving a batch of discounts and searching discounts.
+This use case demonstrates how the `hubspot.crm.commerce.discounts` API can be used to create and manage a batch of discount at a time. This example involves a sequence of actions that leverage the Ballerina "Hubspot CRM Discount connector" to demonstrate the process of creating, fetching, updating and archiving a batch of discounts.
 
 ## Prerequisites
 

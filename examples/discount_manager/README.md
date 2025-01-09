@@ -1,6 +1,6 @@
 ## Hubspot Discount Manager
 
-This use case demonstrates how the `hubspot.crm.commerce.discounts` API can be used to create and manage a discount. This example involves a sequence of actions that leverage the Hubspot CRM API v3 to demonstrate the process of creating, fetching, updating and archiving discounts.
+This use case demonstrates how the `hubspot.crm.commerce.discounts` API can be used to create and manage a discount. This example involves a sequence of actions that leverage the Ballerina "Hubspot CRM Discount connector" to demonstrate the process of creating, fetching, updating and archiving discounts.
 
 ## Prerequisites
 
