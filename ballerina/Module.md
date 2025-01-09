@@ -1,3 +1,5 @@
+# Ballerina HubSpot CRM Commerce Discounts connector
+
 ## Overview
 
 [HubSpot](https://www.hubspot.com/our-story) is an AI-powered customer relationship management (CRM) platform. 
@@ -48,7 +50,6 @@ Navigate to "Auth" tab.
    ```
 
 3. Choose the preferred account.
-
    ![Choosing Accounts](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/account_chose.png)
 
    Choose account and authorize the client.
@@ -56,7 +57,6 @@ Navigate to "Auth" tab.
 4. Check URL tab and find the authorization code.
 
 5. Send a http request to the HubSpot.
-
    * Linux/MacOS
       ```bash
       curl --request POST \ 
@@ -102,7 +102,6 @@ import ballerinax/hubspot.crm.commerce.discounts;
    ```
 
 2. Create a `Config.toml` file inside the Ballerina package and add the following configurations with the values retrieved in the earlier steps.
-
    ```toml
     clientId = <Client Id>
     clientSecret = <Client Secret>
@@ -110,11 +109,9 @@ import ballerinax/hubspot.crm.commerce.discounts;
    ```
 
 ### Step 3: Invoke the connector operation
-
 Now, utilize the available connector operations. A sample use case is shown below.
 
 #### Create a New Discount
-
 ```ballerina
 SimplePublicObjectInputForCreate payload = {
    associations: [],
@@ -132,7 +129,6 @@ SimplePublicObject createResponse = check hubspotClient->/.post(payload, {});
 ```
 
 #### List all discounts
-
 ```ballerina
 GetCrmV3ObjectsDiscountsQueries params = {
    'limit: 10,
@@ -144,7 +140,6 @@ CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = che
 ```
 
 ## Examples
-
 The HubSpot CRM Commerce Discounts connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/), covering the following use cases:
 
 1. [Discount Manager](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/discount_manager) - see how the Hubspot API can be used to create discount and manage it through endpoints.
