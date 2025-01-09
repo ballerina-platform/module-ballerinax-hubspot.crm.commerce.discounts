@@ -124,9 +124,9 @@ public function main() returns error? {
         foreach discounts:SimplePublicObject obj in batchUpdateResponse.results {
             io:println("Discount updated successfully with id: " + obj.id.toString());
         }
-        
+
     }
-    
+
     // search for a discount
     discounts:PublicObjectSearchRequest searchPayload = {
         sorts: ["hs_value"],
@@ -150,7 +150,7 @@ public function main() returns error? {
     };
 
     http:Response batchArchiveResponse = check hubspotClient->/batch/archive.post(batchArchivePayload, {});
-    
+
     if (batchArchiveResponse.statusCode == 204) {
         io:println("Discounts archived successfully");
     } else {

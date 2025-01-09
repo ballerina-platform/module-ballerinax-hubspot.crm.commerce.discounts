@@ -57,7 +57,6 @@ public function main() returns error? {
     io:println("Discount created successfully with id: " + createResponse.id.toString());
     createdDiscountId = createResponse.id.toString();
 
-
     // update a discount
     discounts:SimplePublicObjectInput updatePayload = {
         objectWriteTraceId: "1234",
@@ -71,7 +70,6 @@ public function main() returns error? {
 
     io:println("Discount updated successfully with id: " + updateResponse.id.toString());
 
-
     // read a discount
     discounts:GetCrmV3ObjectsDiscountsDiscountidQueries readParams = {
         properties: ["hs_label", "hs_value", "hs_type"]
@@ -80,7 +78,6 @@ public function main() returns error? {
     discounts:SimplePublicObjectWithAssociations readResponse = check hubspotClient->/[createdDiscountId].get({}, readParams);
 
     io:println("Discount read successfully with id: " + readResponse.id.toString());
-
 
     // delete a discount
     http:Response deleteResponse = check hubspotClient->/[createdDiscountId].delete({});
