@@ -27,9 +27,7 @@ You need a [HubSpot developer account](https://developers.hubspot.com/get-starte
 
 - Then move to "Auth" tab.
 
-5. Setup the "Redirect URLs" with respective links.
-   >Example: http://localhost:9090  
-
+5. Setup the "Redirect URLs" with respective links. 
    ![Auth Tab](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/auth_page.png)
 
 Finally Create the app.
@@ -42,12 +40,9 @@ Navigate to "Auth" tab.
 ### Step 3: Get access token and refresh token.
 
 1. Set scopes under "Auth" tab for your app based on the [API requirements](https://developers.hubspot.com/docs/reference/api).
-
-   >Example: https://developers.hubspot.com/docs/reference/api/crm/commerce/discounts
    ![API Reference page](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/exmaple_api_reference.png)
 
 2. Under "Auth" tab under Sample install URL (OAuth) section copy the full URL.
-   >**Note:** The above copied URL is in the following format.
    ```
    https://app.hubspot.com/oauth/authorize?client_id=<client_id>&redirect_uri=<redirect_url>&scope=<scopes>
    ```
@@ -59,7 +54,6 @@ Navigate to "Auth" tab.
    Choose account and authorize the client.
 
 4. Check URL tab and find the authorization code.
-   >Example: code=na1-**********************
 
 5. Send a http request to the HubSpot.
 
@@ -135,7 +129,6 @@ SimplePublicObjectInputForCreate payload = {
 };
 
 SimplePublicObject createResponse = check hubspotClient->/.post(payload, {});
-
 ```
 
 #### List all discounts
@@ -148,7 +141,6 @@ GetCrmV3ObjectsDiscountsQueries params = {
 };
 
 CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get({}, params);
-
 ```
 
 ## Examples
