@@ -142,7 +142,7 @@ SimplePublicObjectInputForCreate payload = {
    }
 };
 
-SimplePublicObject create_response = check hubspotClient->/.post(payload, {});
+SimplePublicObject createResponse = check hubspotClient->/.post(payload, {});
 
 ```
 
