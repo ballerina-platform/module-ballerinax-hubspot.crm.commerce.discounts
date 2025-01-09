@@ -65,7 +65,7 @@ public function main() returns error? {
         ]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchCreateResponse = 
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchCreateResponse =
     check hubspotClient->/batch/create.post(batchCreatePayload, {});
 
     if (batchCreateResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
@@ -87,7 +87,7 @@ public function main() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchReadResponse = 
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchReadResponse =
     check hubspotClient->/batch/read.post(batchReadPayload, {});
 
     if (batchReadResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
@@ -118,7 +118,7 @@ public function main() returns error? {
         ]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchUpdateResponse = 
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchUpdateResponse =
     check hubspotClient->/batch/update.post(batchUpdatePayload, {});
 
     if (batchUpdateResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
@@ -137,7 +137,7 @@ public function main() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging searchResponse = 
+    discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging searchResponse =
     check hubspotClient->/search.post(searchPayload, {});
 
     foreach discounts:SimplePublicObject obj in searchResponse.results {
@@ -152,7 +152,7 @@ public function main() returns error? {
         ]
     };
 
-    http:Response batchArchiveResponse = 
+    http:Response batchArchiveResponse =
     check hubspotClient->/batch/archive.post(batchArchivePayload, {});
 
     if batchArchiveResponse.statusCode == 204 {
