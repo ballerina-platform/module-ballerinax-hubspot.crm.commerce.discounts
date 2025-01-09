@@ -50,12 +50,7 @@ ConnectionConfig config = {
 
 final Client hubspotClient = check new (config, serviceUrl);
 
-@test:Config{
-    groups: ["mocks"]
-} 
-// {
-//     dependsOn: [testBatchCreate]
-// }
+@test:Config
 function testList() returns error? {
 
     GetCrmV3ObjectsDiscountsQueries params = {
@@ -76,7 +71,8 @@ function testList() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testCreate]
+    dependsOn: [testCreate],
+    enable: isLiveServer
 }
 function testRead() returns error? {
     GetCrmV3ObjectsDiscountsDiscountidQueries params = {
@@ -93,7 +89,8 @@ function testRead() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testRead]
+    dependsOn: [testRead],
+    enable: isLiveServer
 }
 function testUpdate() returns error? {
     SimplePublicObjectInput payload = {
@@ -111,7 +108,8 @@ function testUpdate() returns error? {
 }
 
 @test:Config {
-    dependsOn: [testUpdate]
+    dependsOn: [testUpdate],
+    enable: isLiveServer
 }
 function testArchive() returns error? {
     http:Response delete_response = check hubspotClient->/[discount_id].delete({});
@@ -119,7 +117,9 @@ function testArchive() returns error? {
     test:assertEquals(delete_response.statusCode, 204, "Discount is not deleted");
 }
 
-@test:Config
+@test:Config{
+    enable: isLiveServer
+}
 function testCreate() returns error? {
     hs_label = "test_discount";
     hs_value = "40";
@@ -150,6 +150,7 @@ function testCreate() returns error? {
 }
 
 @test:Config {
+    enable: isLiveServer,
     dependsOn: [testBatchRead]
 }
 function testBatchUpdate() returns error? {
@@ -196,6 +197,7 @@ function testBatchUpdate() returns error? {
 }
 
 @test:Config {
+    enable: isLiveServer,
     dependsOn: [testSearch]
 }
 function testBatchRead() returns error? {
@@ -221,6 +223,7 @@ function testBatchRead() returns error? {
 }
 
 @test:Config {
+    enable: isLiveServer,
     dependsOn: [testArchive]
 }
 function testBatchCreate() returns error? {
@@ -279,6 +282,7 @@ function testBatchCreate() returns error? {
 }
 
 @test:Config {
+    enable: isLiveServer,
     dependsOn: [testBatchUpdate]
 }
 function testBatchArchive() returns error? {
@@ -296,6 +300,7 @@ function testBatchArchive() returns error? {
 }
 
 @test:Config {
+    enable: isLiveServer,
     dependsOn: [testBatchCreate]
 }
 function testSearch() returns error? {
@@ -321,4 +326,34 @@ function testSearch() returns error? {
 
         i = i + 1;
     }
+}
+
+// this is a mock test
+@test:Config {
+    enable: !isLiveServer
+}
+function testBatchUpsert() returns error? {
+
+    BatchInputSimplePublicObjectBatchInputUpsert payload = {
+        "inputs": [
+            {
+                "idProperty": "string",
+                "objectWriteTraceId": "string",
+                "id": "string",
+                "properties": {
+                    "additionalProp1": "string",
+                    "additionalProp2": "string",
+                    "additionalProp3": "string"
+                }
+            }
+        ]
+    };
+
+    BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors upsert_response = check hubspotClient->/batch/upsert.post(payload, {});
+
+    test:assertNotEquals(upsert_response.results[0].id, ());
+    test:assertEquals(upsert_response.results[0].properties["hs_label"], "A fixed, one-time discount");
+    test:assertEquals(upsert_response.results[0].properties["hs_value"], "50");
+    test:assertEquals(upsert_response.results[0].properties["hs_type"], "PERCENT");
+
 }
