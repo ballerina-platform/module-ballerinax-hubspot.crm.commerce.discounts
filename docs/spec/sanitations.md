@@ -15,7 +15,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
     * Original: `https://api.hubapi.com`
     * Updated: `https://api.hubapi.com/crm/v3/objects/discounts`
-    * Reason: This change is made to ensure that all API paths are relative to the versioned base URL (crm/v3/objects/taxes), which improves the consistency and usability of the APIs.
+    * Reason: This change is made to ensure that all API paths are relative to the versioned base URL (crm/v3/objects/discounts), which improves the consistency and usability of the APIs.
 
 3. Update API Paths:
 
