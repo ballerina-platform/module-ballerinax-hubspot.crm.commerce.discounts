@@ -26,18 +26,18 @@ configurable boolean isLiveServer = ?;
 string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/discounts" : "http://localhost:9090";
 
 // test discount ids for batch and basic endpoints.
-string discount_id = "";
-string[] batch_discount_ids = [];
+string discountId = "";
+string[] batchDiscountIds = [];
 
 // discount properties for basic create
-string hs_value = "";
-string hs_label = "";
-string hs_type = "";
+string hsValue = "";
+string hsLabel = "";
+string hsType = "";
 
 // discount properties for update
-string new_hs_value = "8";
-string new_hs_label = "test_updated_label";
-string new_hs_type = "PERCENT";
+string newHsValue = "8";
+string newHsLabel = "test_updated_label";
+string newHsType = "PERCENT";
 
 ConnectionConfig config = {
     auth: {
@@ -79,13 +79,13 @@ function testRead() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    SimplePublicObjectWithAssociations response = check hubspotClient->/[discount_id].get({}, params);
+    SimplePublicObjectWithAssociations response = check hubspotClient->/[discountId].get({}, params);
 
     test:assertNotEquals(response.id, (), "Discount id is not found");
     test:assertNotEquals(response.properties, (), "Discount properties are not found");
-    test:assertEquals(response.properties["hs_type"], hs_type, "Discount type is not correct");
-    test:assertEquals(response.properties["hs_value"], hs_value, "Discount value is not correct");
-    test:assertEquals(response.properties["hs_label"], hs_label, "Discount label is not correct");
+    test:assertEquals(response.properties["hs_type"], hsType, "Discount type is not correct");
+    test:assertEquals(response.properties["hs_value"], hsValue, "Discount value is not correct");
+    test:assertEquals(response.properties["hs_label"], hsLabel, "Discount label is not correct");
 }
 
 @test:Config {
@@ -96,15 +96,15 @@ function testUpdate() returns error? {
     SimplePublicObjectInput payload = {
         objectWriteTraceId: "1234",
         properties: {
-            "hs_value": new_hs_value,
-            "hs_label": new_hs_label
+            "hs_value": newHsValue,
+            "hs_label": newHsLabel
         }
     };
 
-    SimplePublicObject update_response = check hubspotClient->/[discount_id].patch(payload, {});
+    SimplePublicObject update_response = check hubspotClient->/[discountId].patch(payload, {});
 
-    test:assertEquals(update_response.properties["hs_value"], new_hs_value, "Discount value is not updated");
-    test:assertEquals(update_response.properties["hs_label"], new_hs_label, "Discount label is not updated");
+    test:assertEquals(update_response.properties["hs_value"], newHsValue, "Discount value is not updated");
+    test:assertEquals(update_response.properties["hs_label"], newHsLabel, "Discount label is not updated");
 }
 
 @test:Config {
@@ -112,7 +112,7 @@ function testUpdate() returns error? {
     enable: isLiveServer
 }
 function testArchive() returns error? {
-    http:Response delete_response = check hubspotClient->/[discount_id].delete({});
+    http:Response delete_response = check hubspotClient->/[discountId].delete({});
 
     test:assertEquals(delete_response.statusCode, 204, "Discount is not deleted");
 }
@@ -121,18 +121,18 @@ function testArchive() returns error? {
     enable: isLiveServer
 }
 function testCreate() returns error? {
-    hs_label = "test_discount";
-    hs_value = "40";
-    hs_type = "PERCENT";
+    hsLabel = "test_discount";
+    hsValue = "40";
+    hsType = "PERCENT";
 
     SimplePublicObjectInputForCreate payload = {
         associations: [],
         objectWriteTraceId: "1234",
         properties: {
-            "hs_label": hs_label,
+            "hs_label": hsLabel,
             "hs_duration": "ONCE",
-            "hs_type": hs_type,
-            "hs_value": hs_value,
+            "hs_type": hsType,
+            "hs_value": hsValue,
             "hs_sort_order": "2"
         }
     };
@@ -142,7 +142,7 @@ function testCreate() returns error? {
     test:assertFalse(create_response.archived ?: true, "Discount is archived");
     test:assertFalse(create_response.id == "", "Discount id is not valid");
 
-    discount_id = create_response.id;
+    discountId = create_response.id;
 
     test:assertEquals(create_response.properties["hs_label"], "test_discount", "Discount label is not correct");
     test:assertEquals(create_response.properties["hs_value"], "40", "Discount value is not correct");
@@ -157,14 +157,14 @@ function testBatchUpdate() returns error? {
     BatchInputSimplePublicObjectBatchInput payload = {
         inputs: [
             {
-                id: batch_discount_ids[0],
+                id: batchDiscountIds[0],
                 properties: {
                     "hs_value": "30",
                     "hs_label": "test_batch_discount_update_1"
                 }
             },
             {
-                id: batch_discount_ids[1],
+                id: batchDiscountIds[1],
                 properties: {
                     "hs_value": "40",
                     "hs_label": "test_batch_discount_update_2"
@@ -180,14 +180,14 @@ function testBatchUpdate() returns error? {
     test:assertNotEquals(batch_update_response.results[0].id, (), "Update failed as id varies");
     test:assertNotEquals(batch_update_response.results[1].id, (), "Update failed as id varies");
 
-    if (batch_update_response.results[0].id == batch_discount_ids[0]) {
+    if (batch_update_response.results[0].id == batchDiscountIds[0]) {
         test:assertEquals(batch_update_response.results[0].properties["hs_value"], "30", "Discount value is not updated");
         test:assertEquals(batch_update_response.results[0].properties["hs_label"], "test_batch_discount_update_1", "Discount label is not updated");
         test:assertEquals(batch_update_response.results[1].properties["hs_value"], "40", "Discount value is not updated");
         test:assertEquals(batch_update_response.results[1].properties["hs_label"], "test_batch_discount_update_2", "Discount label is not updated");
     }
 
-    if (batch_update_response.results[0].id == batch_discount_ids[1]) {
+    if (batch_update_response.results[0].id == batchDiscountIds[1]) {
         test:assertEquals(batch_update_response.results[0].properties["hs_value"], "40", "Discount value is not updated");
         test:assertEquals(batch_update_response.results[0].properties["hs_label"], "test_batch_discount_update_2", "Discount label is not updated");
         test:assertEquals(batch_update_response.results[1].properties["hs_value"], "30", "Discount value is not updated");
@@ -204,8 +204,8 @@ function testBatchRead() returns error? {
     BatchReadInputSimplePublicObjectId payload = {
         propertiesWithHistory: ["hs_label", "hs_value", "hs_type"],
         inputs: [
-            {id: batch_discount_ids[0]},
-            {id: batch_discount_ids[1]}
+            {id: batchDiscountIds[0]},
+            {id: batchDiscountIds[1]}
         ],
         properties: ["hs_label", "hs_value", "hs_type"]
     };
@@ -276,7 +276,7 @@ function testBatchCreate() returns error? {
     // preparing discount ids for batch tests
     int i = 0;
     while (i < batch_create_response.results.length()) {
-        batch_discount_ids.push(batch_create_response.results[i].id);
+        batchDiscountIds.push(batch_create_response.results[i].id);
         i = i + 1;
     }
 }
@@ -288,9 +288,9 @@ function testBatchCreate() returns error? {
 function testBatchArchive() returns error? {
     BatchInputSimplePublicObjectId payload = {
         inputs: [
-            {id: batch_discount_ids[0]},
-            {id: batch_discount_ids[1]},
-            {id: batch_discount_ids[2]}
+            {id: batchDiscountIds[0]},
+            {id: batchDiscountIds[1]},
+            {id: batchDiscountIds[2]}
         ]
     };
 
