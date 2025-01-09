@@ -18,7 +18,8 @@ import ballerina/http;
 
 service on new http:Listener(9090) {
 
-    resource isolated function get .(map<string|string[]> headers = {}) returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error {
+    resource isolated function get .(map<string|string[]> headers = {}) 
+    returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging {
         CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = {
             results: [
                 {
@@ -75,7 +76,9 @@ service on new http:Listener(9090) {
 
     };
 
-    resource isolated function post batch/upsert(@http:Payload BatchInputSimplePublicObjectBatchInputUpsert payload, map<string|string[]> headers = {}) returns BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors|error {
+    resource isolated function post batch/upsert(@http:Payload BatchInputSimplePublicObjectBatchInputUpsert payload, 
+    map<string|string[]> headers = {}) 
+    returns BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors {
         BatchResponseSimplePublicUpsertObject response = {
             completedAt: "2025-01-09T06:00:46.038Z",
             requestedAt: "2025-01-09T06:00:46.038Z",
