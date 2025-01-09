@@ -65,15 +65,16 @@ public function main() returns error? {
         ]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchCreateResponse = check hubspotClient->/batch/create.post(batchCreatePayload, {});
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchCreateResponse = 
+    check hubspotClient->/batch/create.post(batchCreatePayload, {});
 
     if (batchCreateResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
         io:println("Error occurred while creating discounts");
-    } else {
-        foreach discounts:SimplePublicObject obj in batchCreateResponse.results {
-            io:println("Discount created successfully with id: " + obj.id.toString());
-            discountIds.push(obj.id.toString());
-        }
+        return;
+    }
+    foreach discounts:SimplePublicObject obj in batchCreateResponse.results {
+        io:println("Discount created successfully with id: " + obj.id.toString());
+        discountIds.push(obj.id.toString());
     }
 
     // batch read discounts
@@ -86,14 +87,15 @@ public function main() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchReadResponse = check hubspotClient->/batch/read.post(batchReadPayload, {});
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchReadResponse = 
+    check hubspotClient->/batch/read.post(batchReadPayload, {});
 
     if (batchReadResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
         io:println("Error occurred while reading discounts");
-    } else {
-        foreach discounts:SimplePublicObject obj in batchReadResponse.results {
-            io:println("Discount read successfully with id: " + obj.id.toString());
-        }
+        return;
+    }
+    foreach discounts:SimplePublicObject obj in batchReadResponse.results {
+        io:println("Discount read successfully with id: " + obj.id.toString());
     }
 
     // update batch of discounts
@@ -116,15 +118,15 @@ public function main() returns error? {
         ]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchUpdateResponse = check hubspotClient->/batch/update.post(batchUpdatePayload, {});
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchUpdateResponse = 
+    check hubspotClient->/batch/update.post(batchUpdatePayload, {});
 
     if (batchUpdateResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
         io:println("Error occurred while updating discounts");
-    } else {
-        foreach discounts:SimplePublicObject obj in batchUpdateResponse.results {
-            io:println("Discount updated successfully with id: " + obj.id.toString());
-        }
-
+        return;
+    }
+    foreach discounts:SimplePublicObject obj in batchUpdateResponse.results {
+        io:println("Discount updated successfully with id: " + obj.id.toString());
     }
 
     // search for a discount
@@ -135,7 +137,8 @@ public function main() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging searchResponse = check hubspotClient->/search.post(searchPayload, {});
+    discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging searchResponse = 
+    check hubspotClient->/search.post(searchPayload, {});
 
     foreach discounts:SimplePublicObject obj in searchResponse.results {
         io:println("Discount found from search with id: " + obj.id.toString());
@@ -149,9 +152,10 @@ public function main() returns error? {
         ]
     };
 
-    http:Response batchArchiveResponse = check hubspotClient->/batch/archive.post(batchArchivePayload, {});
+    http:Response batchArchiveResponse = 
+    check hubspotClient->/batch/archive.post(batchArchivePayload, {});
 
-    if (batchArchiveResponse.statusCode == 204) {
+    if batchArchiveResponse.statusCode == 204 {
         io:println("Discounts archived successfully");
     } else {
         io:println("Archiving failed");
