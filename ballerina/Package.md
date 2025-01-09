@@ -1,11 +1,5 @@
 # Ballerina HubSpot CRM Commerce Discounts connector
 
-[![Build](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/actions/workflows/ci.yml)
-[![Trivy](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/actions/workflows/trivy-scan.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/actions/workflows/trivy-scan.yml)
-[![GraalVM Check](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/actions/workflows/build-with-bal-test-graalvm.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/actions/workflows/build-with-bal-test-graalvm.yml)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts.svg)](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/commits/master)
-[![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/hubspot.crm.commerce.discounts.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%hubspot.crm.commerce.discounts)
-
 ## Overview
 
 [HubSpot](https://www.hubspot.com/our-story) is an AI-powered customer relationship management (CRM) platform. 
@@ -21,40 +15,40 @@ You need a [HubSpot developer account](https://developers.hubspot.com/get-starte
 ### Step 1: Create HubSpot Developer Project
 1. [Login](https://app.hubspot.com/login) to HubSpot developer account.
 
-2. Create a public app by clicking on `Create app`.![alt text](<./docs/setup/resources/build_public_app.png>)
+2. Create a public app by clicking on "Create app".![Building public image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/build_public_app.png)
 
-3. Click on `Create app`.
-![alt text](<./../docs/setup/resources/create_app.png>)
+3. Click on "Create app".
+![Creating App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/create_app.png)
 
-4. Under `App Info`
-   - Enter `Public app name`.
-   - Update `App logo` (optional).
-   - Update `Description` (optional). 
+4. Under "App Info"
+   - Enter Public app name.
+   - Update App logo (optional).
+   - Update Description (optional). 
 
-   ![alt text](<./../docs/setup/resources/enter_app_details.png>)
+   ![Entering App details](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/enter_app_details.png)
 
-- Then move to `Auth` tab.
+- Then move to Auth tab.
 
-5. Setup the `Redirect URLs` with respective links.
+5. Setup the "Redirect URLs" with respective links.
    >Example: http://localhost:9090  
 
-   ![alt text](<./../docs/setup/resources/auth_page.png>)
+   ![Auth Tab](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/auth_page.png)
 
-Finally `Create app`.
+Finally Create the app.
 
-### Step 2: Get `Client ID` and `Client secret`.
-Navigate to `Auth` tab.
+### Step 2: Get Client ID and Client secret.
+Navigate to "Auth" tab.
 
-![alt text](<./../docs/setup/resources/client_id_secret.png>)
+![Client ID & Secret](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/client_id_secret.png)
 
-### Step 3: Get `access token` and `refresh token`.
+### Step 3: Get access token and refresh token.
 
-1. Set scopes under `Auth` tab for your app based on the [API requirements](https://developers.hubspot.com/docs/reference/api).
+1. Set scopes under Auth tab for your app based on the [API requirements](https://developers.hubspot.com/docs/reference/api).
 
    >Example: https://developers.hubspot.com/docs/reference/api/crm/commerce/discounts
-   ![alt text](<./../docs/setup/resources/exmaple_api_reference.png>)
+   ![API Reference page](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/exmaple_api_reference.png)
 
-2. Under `Auth` tab under `Sample install URL (OAuth)` section `Copy full URL`.
+2. Under Auth tab under Sample install URL (OAuth) section copy the full URL.
    >**Note:** The above copied URL is in the following format.
    ```
    https://app.hubspot.com/oauth/authorize?client_id=<client_id>&redirect_uri=<redirect_url>&scope=<scopes>
@@ -62,37 +56,37 @@ Navigate to `Auth` tab.
 
 3. Choose the preferred account.
 
-   ![alt text](<./../docs/setup/resources/account_chose.png>)
+   ![Choosing Accounts](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/account_chose.png)
 
    Choose account and authorize the client.
 
-4. Don't panic though `This site can’t be reached` message appear. Look at the URL and find the authorization code.
-   >Example: code=na1-************************S
+4. Check URL tab and find the authorization code.
+   >Example: code=na1-**********************
 
 5. Send a http request to the HubSpot.
 
    * Linux/MacOS
-      ```
+      ```bash
       curl --request POST \ 
       --url https://api.hubapi.com/oauth/v1/token \ --header 'content-type: application/x-www-form-urlencoded' \ 
       --data 'grant_type=authorization_code&code=<code>&redirect_uri=http://localhost:9090&client_id=<client_id>&client_secret=<client_secret>'
       ```
 
-6. Above command returns the `access token` and `refresh token`.
+6. Above command returns the access token and refresh token.
 
 7. Use these tokens to authorize the client.
 
 ## Quickstart
 
-To use the `HubSpot CRM Commerce Discounts` connector in your Ballerina application, update the `.bal` file as follows:
+To use the HubSpot CRM Commerce Discounts connector in your Ballerina application, update the .bal file as follows:
 
 ### Step 1: Import the module
 
 Import the `hubspot.crm.commerce.discounts` module and `oauth2` module.
 
 ```ballerina
-import ballerinax/hubspot.crm.commerce.discounts;
 import ballerina/oauth2;
+import ballerinax/hubspot.crm.commerce.discounts;
 ```
 
 ### Step 2: Instantiate a new connector
@@ -115,7 +109,7 @@ import ballerina/oauth2;
    final Client hubSpotClient = check new (config);
    ```
 
-2. Create a `Config.toml` file and, configure the obtained credentials obtained in the above steps as follows:
+2. Create a Config.toml file and, configure the obtained credentials obtained in the above steps as follows:
 
    ```toml
     clientId = <Client Id>
@@ -142,7 +136,7 @@ SimplePublicObjectInputForCreate payload = {
    }
 };
 
-SimplePublicObject|error create_response = check hubspotClient->/.post(payload, {});
+SimplePublicObject createResponse = check hubspotClient->/.post(payload, {});
 
 ```
 
@@ -155,13 +149,13 @@ GetCrmV3ObjectsDiscountsQueries params = {
    properties: ["hs_label", "hs_value", "hs_type"]
 };
 
-CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error response = check hubspotClient->/.get({}, params);
+CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get({}, params);
 
 ```
 
 ## Examples
 
-The `HubSpot CRM Commerce Discounts` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/), covering the following use cases:
+The HubSpot CRM Commerce Discounts connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/), covering the following use cases:
 
 1. [Discount Manager](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/discount_manager) - see how the Hubspot API can be used to create discount and manage it through endpoints.
 2. [Festival Discounts](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/festival_discounts) - see how the Hubspot API can be used to create and to manage multiple discounts at a time.
