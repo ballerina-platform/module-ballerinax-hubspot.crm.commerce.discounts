@@ -163,7 +163,9 @@ CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error response
 
 The `HubSpot CRM Commerce Discounts` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/), covering the following use cases:
 
-[//]: # (TODO: Add examples)
+1. [Discount Manager](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/discount_manager) - see how the Hubspot API can be used to create discount and manage it through endpoints.
+2. [Festival Discounts](https://github.com/module-ballerinax-hubspot.crm.commerce.discounts/tree/main/examples/festival_discounts) - see how the Hubspot API can be used to create and to manage multiple discounts at a time.
+
 
 ## Build from the source
 
