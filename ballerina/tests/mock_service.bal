@@ -16,7 +16,7 @@
 
 import ballerina/http;
 
-service on new http:Listener(9090){
+service on new http:Listener(9090) {
 
     resource isolated function get .(map<string|string[]> headers = {}) returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error {
         CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = {
