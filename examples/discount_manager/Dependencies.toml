@@ -316,3 +316,4 @@ dependencies = [
 modules = [
 	{org = "wso2", packageName = "discount_manager", moduleName = "discount_manager"}
 ]
+
