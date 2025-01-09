@@ -101,10 +101,10 @@ function testUpdate() returns error? {
         }
     };
 
-    SimplePublicObject update_response = check hubspotClient->/[discountId].patch(payload, {});
+    SimplePublicObject updateResponse = check hubspotClient->/[discountId].patch(payload, {});
 
-    test:assertEquals(update_response.properties["hs_value"], newHsValue, "Discount value is not updated");
-    test:assertEquals(update_response.properties["hs_label"], newHsLabel, "Discount label is not updated");
+    test:assertEquals(updateResponse.properties["hs_value"], newHsValue, "Discount value is not updated");
+    test:assertEquals(updateResponse.properties["hs_label"], newHsLabel, "Discount label is not updated");
 }
 
 @test:Config {
@@ -112,9 +112,9 @@ function testUpdate() returns error? {
     enable: isLiveServer
 }
 function testArchive() returns error? {
-    http:Response delete_response = check hubspotClient->/[discountId].delete({});
+    http:Response deleteResponse = check hubspotClient->/[discountId].delete({});
 
-    test:assertEquals(delete_response.statusCode, 204, "Discount is not deleted");
+    test:assertEquals(deleteResponse.statusCode, 204, "Discount is not deleted");
 }
 
 @test:Config {
@@ -137,16 +137,16 @@ function testCreate() returns error? {
         }
     };
 
-    SimplePublicObject create_response = check hubspotClient->/.post(payload, {});
+    SimplePublicObject createResponse = check hubspotClient->/.post(payload, {});
 
-    test:assertFalse(create_response.archived ?: true, "Discount is archived");
-    test:assertFalse(create_response.id == "", "Discount id is not valid");
+    test:assertFalse(createResponse.archived ?: true, "Discount is archived");
+    test:assertFalse(createResponse.id == "", "Discount id is not valid");
 
-    discountId = create_response.id;
+    discountId = createResponse.id;
 
-    test:assertEquals(create_response.properties["hs_label"], "test_discount", "Discount label is not correct");
-    test:assertEquals(create_response.properties["hs_value"], "40", "Discount value is not correct");
-    test:assertEquals(create_response.properties["hs_type"], "PERCENT", "Discount type is not correct");
+    test:assertEquals(createResponse.properties["hs_label"], "test_discount", "Discount label is not correct");
+    test:assertEquals(createResponse.properties["hs_value"], "40", "Discount value is not correct");
+    test:assertEquals(createResponse.properties["hs_type"], "PERCENT", "Discount type is not correct");
 }
 
 @test:Config {
@@ -173,25 +173,25 @@ function testBatchUpdate() returns error? {
         ]
     };
 
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors batch_update_response = check hubspotClient->/batch/update.post(payload, {});
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors batchUpdateResponse = check hubspotClient->/batch/update.post(payload, {});
 
-    test:assertEquals(batch_update_response.status, "COMPLETE", "Batch update failed");
-    test:assertEquals(batch_update_response.results.length(), 2, "Not all the specified discounts are updated");
-    test:assertNotEquals(batch_update_response.results[0].id, (), "Update failed as id varies");
-    test:assertNotEquals(batch_update_response.results[1].id, (), "Update failed as id varies");
+    test:assertEquals(batchUpdateResponse.status, "COMPLETE", "Batch update failed");
+    test:assertEquals(batchUpdateResponse.results.length(), 2, "Not all the specified discounts are updated");
+    test:assertNotEquals(batchUpdateResponse.results[0].id, (), "Update failed as id varies");
+    test:assertNotEquals(batchUpdateResponse.results[1].id, (), "Update failed as id varies");
 
-    if (batch_update_response.results[0].id == batchDiscountIds[0]) {
-        test:assertEquals(batch_update_response.results[0].properties["hs_value"], "30", "Discount value is not updated");
-        test:assertEquals(batch_update_response.results[0].properties["hs_label"], "test_batch_discount_update_1", "Discount label is not updated");
-        test:assertEquals(batch_update_response.results[1].properties["hs_value"], "40", "Discount value is not updated");
-        test:assertEquals(batch_update_response.results[1].properties["hs_label"], "test_batch_discount_update_2", "Discount label is not updated");
+    if (batchUpdateResponse.results[0].id == batchDiscountIds[0]) {
+        test:assertEquals(batchUpdateResponse.results[0].properties["hs_value"], "30", "Discount value is not updated");
+        test:assertEquals(batchUpdateResponse.results[0].properties["hs_label"], "test_batch_discount_update_1", "Discount label is not updated");
+        test:assertEquals(batchUpdateResponse.results[1].properties["hs_value"], "40", "Discount value is not updated");
+        test:assertEquals(batchUpdateResponse.results[1].properties["hs_label"], "test_batch_discount_update_2", "Discount label is not updated");
     }
 
-    if (batch_update_response.results[0].id == batchDiscountIds[1]) {
-        test:assertEquals(batch_update_response.results[0].properties["hs_value"], "40", "Discount value is not updated");
-        test:assertEquals(batch_update_response.results[0].properties["hs_label"], "test_batch_discount_update_2", "Discount label is not updated");
-        test:assertEquals(batch_update_response.results[1].properties["hs_value"], "30", "Discount value is not updated");
-        test:assertEquals(batch_update_response.results[1].properties["hs_label"], "test_batch_discount_update_1", "Discount label is not updated");
+    if (batchUpdateResponse.results[0].id == batchDiscountIds[1]) {
+        test:assertEquals(batchUpdateResponse.results[0].properties["hs_value"], "40", "Discount value is not updated");
+        test:assertEquals(batchUpdateResponse.results[0].properties["hs_label"], "test_batch_discount_update_2", "Discount label is not updated");
+        test:assertEquals(batchUpdateResponse.results[1].properties["hs_value"], "30", "Discount value is not updated");
+        test:assertEquals(batchUpdateResponse.results[1].properties["hs_label"], "test_batch_discount_update_1", "Discount label is not updated");
 
     }
 }
@@ -210,16 +210,16 @@ function testBatchRead() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors batch_read_response = check hubspotClient->/batch/read.post(payload, {});
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors batchReadResponse = check hubspotClient->/batch/read.post(payload, {});
 
-    test:assertEquals(batch_read_response.status, "COMPLETE", "Batch read failed");
-    test:assertEquals(batch_read_response.results.length(), 2, "Not all the specified discounts are fetched");
-    test:assertNotEquals(batch_read_response.results[0].id, (), "Read failed as id is null");
-    test:assertNotEquals(batch_read_response.results[1].id, (), "Read failed as id is null");
-    test:assertNotEquals(batch_read_response.results[0].properties, (), "Discount properties are not found");
-    test:assertNotEquals(batch_read_response.results[1].properties, (), "Discount properties are not found");
-    test:assertNotEquals(batch_read_response.results[0].propertiesWithHistory, (), "Propertites with history are not fetched");
-    test:assertNotEquals(batch_read_response.results[1].propertiesWithHistory, (), "Propertites with history are not fetched");
+    test:assertEquals(batchReadResponse.status, "COMPLETE", "Batch read failed");
+    test:assertEquals(batchReadResponse.results.length(), 2, "Not all the specified discounts are fetched");
+    test:assertNotEquals(batchReadResponse.results[0].id, (), "Read failed as id is null");
+    test:assertNotEquals(batchReadResponse.results[1].id, (), "Read failed as id is null");
+    test:assertNotEquals(batchReadResponse.results[0].properties, (), "Discount properties are not found");
+    test:assertNotEquals(batchReadResponse.results[1].properties, (), "Discount properties are not found");
+    test:assertNotEquals(batchReadResponse.results[0].propertiesWithHistory, (), "Propertites with history are not fetched");
+    test:assertNotEquals(batchReadResponse.results[1].propertiesWithHistory, (), "Propertites with history are not fetched");
 }
 
 @test:Config {
@@ -262,21 +262,21 @@ function testBatchCreate() returns error? {
             }
         ]
     };
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors batch_create_response = check hubspotClient->/batch/create.post(payload, {});
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors batchCreateResponse = check hubspotClient->/batch/create.post(payload, {});
 
-    test:assertEquals(batch_create_response.status, "COMPLETE", "Batch create failed");
-    test:assertEquals(batch_create_response.results.length(), 3, "Not all the specified discounts are created");
-    test:assertNotEquals(batch_create_response.results[0].id, (), "Create failed as id varies");
-    test:assertNotEquals(batch_create_response.results[1].id, (), "Create failed as id varies");
-    test:assertNotEquals(batch_create_response.results[2].id, (), "Create failed as id varies");
-    test:assertNotEquals(batch_create_response.results[0].properties, (), "Discount properties are not found");
-    test:assertNotEquals(batch_create_response.results[1].properties, (), "Discount properties are not found");
-    test:assertNotEquals(batch_create_response.results[2].properties, (), "Discount properties are not found");
+    test:assertEquals(batchCreateResponse.status, "COMPLETE", "Batch create failed");
+    test:assertEquals(batchCreateResponse.results.length(), 3, "Not all the specified discounts are created");
+    test:assertNotEquals(batchCreateResponse.results[0].id, (), "Create failed as id varies");
+    test:assertNotEquals(batchCreateResponse.results[1].id, (), "Create failed as id varies");
+    test:assertNotEquals(batchCreateResponse.results[2].id, (), "Create failed as id varies");
+    test:assertNotEquals(batchCreateResponse.results[0].properties, (), "Discount properties are not found");
+    test:assertNotEquals(batchCreateResponse.results[1].properties, (), "Discount properties are not found");
+    test:assertNotEquals(batchCreateResponse.results[2].properties, (), "Discount properties are not found");
 
     // preparing discount ids for batch tests
     int i = 0;
-    while (i < batch_create_response.results.length()) {
-        batchDiscountIds.push(batch_create_response.results[i].id);
+    while (i < batchCreateResponse.results.length()) {
+        batchDiscountIds.push(batchCreateResponse.results[i].id);
         i = i + 1;
     }
 }
@@ -294,9 +294,9 @@ function testBatchArchive() returns error? {
         ]
     };
 
-    http:Response batch_archive_response = check hubspotClient->/batch/archive.post(payload, {});
+    http:Response batchArchiveResponse = check hubspotClient->/batch/archive.post(payload, {});
 
-    test:assertEquals(batch_archive_response.statusCode, 204, "Batch archive failed");
+    test:assertEquals(batchArchiveResponse.statusCode, 204, "Batch archive failed");
 }
 
 @test:Config {
@@ -311,18 +311,18 @@ function testSearch() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    CollectionResponseWithTotalSimplePublicObjectForwardPaging search_response = check hubspotClient->/search.post(payload, {});
+    CollectionResponseWithTotalSimplePublicObjectForwardPaging searchResponse = check hubspotClient->/search.post(payload, {});
 
-    test:assertNotEquals(search_response.results, [], "No search results found");
-    test:assertTrue(search_response.results.length() <= 10, "Limit Exceeded");
+    test:assertNotEquals(searchResponse.results, [], "No search results found");
+    test:assertTrue(searchResponse.results.length() <= 10, "Limit Exceeded");
 
     int i = 0;
-    while (i < search_response.results.length()) {
-        test:assertNotEquals(search_response.results[i].id, (), "Discount id is not found");
-        test:assertNotEquals(search_response.results[i].properties, (), "Discount properties are not found");
-        test:assertNotEquals(search_response.results[i].properties["hs_type"], (), "Discount type is not found");
-        test:assertNotEquals(search_response.results[i].properties["hs_value"], (), "Discount value is not found");
-        test:assertEquals(search_response.results[i].properties["hs_label"].toString().substring(0, 5), "test_", "Discount label is not found");
+    while (i < searchResponse.results.length()) {
+        test:assertNotEquals(searchResponse.results[i].id, (), "Discount id is not found");
+        test:assertNotEquals(searchResponse.results[i].properties, (), "Discount properties are not found");
+        test:assertNotEquals(searchResponse.results[i].properties["hs_type"], (), "Discount type is not found");
+        test:assertNotEquals(searchResponse.results[i].properties["hs_value"], (), "Discount value is not found");
+        test:assertEquals(searchResponse.results[i].properties["hs_label"].toString().substring(0, 5), "test_", "Discount label is not found");
 
         i = i + 1;
     }
@@ -349,11 +349,11 @@ function testBatchUpsert() returns error? {
         ]
     };
 
-    BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors upsert_response = check hubspotClient->/batch/upsert.post(payload, {});
+    BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors upsertResponse = check hubspotClient->/batch/upsert.post(payload, {});
 
-    test:assertNotEquals(upsert_response.results[0].id, ());
-    test:assertEquals(upsert_response.results[0].properties["hs_label"], "A fixed, one-time discount");
-    test:assertEquals(upsert_response.results[0].properties["hs_value"], "50");
-    test:assertEquals(upsert_response.results[0].properties["hs_type"], "PERCENT");
+    test:assertNotEquals(upsertResponse.results[0].id, ());
+    test:assertEquals(upsertResponse.results[0].properties["hs_label"], "A fixed, one-time discount");
+    test:assertEquals(upsertResponse.results[0].properties["hs_value"], "50");
+    test:assertEquals(upsertResponse.results[0].properties["hs_type"], "PERCENT");
 
 }
