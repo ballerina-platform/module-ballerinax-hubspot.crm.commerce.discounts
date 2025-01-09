@@ -84,7 +84,7 @@ Navigate to "Auth" tab.
 
 ## Quickstart
 
-To use the HubSpot CRM Commerce Discounts connector in your Ballerina application, update the .bal file as follows:
+Follow the below steps to use the `HubSpot CRM Commerce Discounts` connector in your Ballerina application.
 
 ### Step 1: Import the module
 
