@@ -40,7 +40,7 @@ public function main() returns error? {
     string[] discountIds = [];
 
     // create a batch of discounts
-    discounts:BatchInputSimplePublicObjectInputForCreate payload = {
+    discounts:BatchInputSimplePublicObjectInputForCreate batchCreatePayload = {
         inputs: [
             {
                 associations: [],
@@ -65,19 +65,19 @@ public function main() returns error? {
         ]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batch_create_response = check hubspotClient->/batch/create.post(payload, {});
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchCreateResponse = check hubspotClient->/batch/create.post(batchCreatePayload, {});
 
-    if (batch_create_response is discounts:BatchResponseSimplePublicObjectWithErrors) {
+    if (batchCreateResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
         io:println("Error occurred while creating discounts");
     } else {
-        foreach discounts:SimplePublicObject obj in batch_create_response.results {
+        foreach discounts:SimplePublicObject obj in batchCreateResponse.results {
             io:println("Discount created successfully with id: " + obj.id.toString());
             discountIds.push(obj.id.toString());
         }
     }
 
     // batch read discounts
-    discounts:BatchReadInputSimplePublicObjectId batch_read_payload = {
+    discounts:BatchReadInputSimplePublicObjectId batchReadPayload = {
         propertiesWithHistory: ["hs_label", "hs_value", "hs_type"],
         inputs: [
             {id: discountIds[0]},
@@ -86,18 +86,18 @@ public function main() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batch_read_response = check hubspotClient->/batch/read.post(batch_read_payload, {});
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchReadResponse = check hubspotClient->/batch/read.post(batchReadPayload, {});
 
-    if (batch_read_response is discounts:BatchResponseSimplePublicObjectWithErrors) {
+    if (batchReadResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
         io:println("Error occurred while reading discounts");
     } else {
-        foreach discounts:SimplePublicObject obj in batch_read_response.results {
+        foreach discounts:SimplePublicObject obj in batchReadResponse.results {
             io:println("Discount read successfully with id: " + obj.id.toString());
         }
     }
 
     // update batch of discounts
-    discounts:BatchInputSimplePublicObjectBatchInput update_payload = {
+    discounts:BatchInputSimplePublicObjectBatchInput batchUpdatePayload = {
         inputs: [
             {
                 id: discountIds[0],
@@ -116,42 +116,42 @@ public function main() returns error? {
         ]
     };
 
-    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batch_update_response = check hubspotClient->/batch/update.post(update_payload, {});
+    discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchUpdateResponse = check hubspotClient->/batch/update.post(batchUpdatePayload, {});
 
-    if (batch_update_response is discounts:BatchResponseSimplePublicObjectWithErrors) {
+    if (batchUpdateResponse is discounts:BatchResponseSimplePublicObjectWithErrors) {
         io:println("Error occurred while updating discounts");
     } else {
-        foreach discounts:SimplePublicObject obj in batch_update_response.results {
+        foreach discounts:SimplePublicObject obj in batchUpdateResponse.results {
             io:println("Discount updated successfully with id: " + obj.id.toString());
         }
         
     }
     
     // search for a discount
-    discounts:PublicObjectSearchRequest search_payload = {
+    discounts:PublicObjectSearchRequest searchPayload = {
         sorts: ["hs_value"],
         query: "festival_batch_discount_update_",
         'limit: 5,
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging search_response = check hubspotClient->/search.post(search_payload, {});
+    discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging searchResponse = check hubspotClient->/search.post(searchPayload, {});
 
-    foreach discounts:SimplePublicObject obj in search_response.results {
+    foreach discounts:SimplePublicObject obj in searchResponse.results {
         io:println("Discount found from search with id: " + obj.id.toString());
     }
 
     // archive batch of discounts
-    discounts:BatchInputSimplePublicObjectId batch_archive_payload = {
+    discounts:BatchInputSimplePublicObjectId batchArchivePayload = {
         inputs: [
             {id: discountIds[0]},
             {id: discountIds[1]}
         ]
     };
 
-    http:Response batch_archive_response = check hubspotClient->/batch/archive.post(batch_archive_payload, {});
+    http:Response batchArchiveResponse = check hubspotClient->/batch/archive.post(batchArchivePayload, {});
     
-    if (batch_archive_response.statusCode == 204) {
+    if (batchArchiveResponse.statusCode == 204) {
         io:println("Discounts archived successfully");
     } else {
         io:println("Archiving failed");

@@ -36,11 +36,11 @@ discounts:ConnectionConfig config = {
 final discounts:Client hubspotClient = check new (config);
 
 public function main() returns error? {
-    string created_discount_id = "";
+    string createdDiscountId = "";
 
     // create a discount
 
-    discounts:SimplePublicObjectInputForCreate create_payload = {
+    discounts:SimplePublicObjectInputForCreate createPayload = {
         associations: [],
         objectWriteTraceId: "1234",
         properties: {
@@ -52,14 +52,14 @@ public function main() returns error? {
         }
     };
 
-    discounts:SimplePublicObject create_response = check hubspotClient->/.post(create_payload, {});
+    discounts:SimplePublicObject createResponse = check hubspotClient->/.post(createPayload, {});
 
-    io:println("Discount created successfully with id: " + create_response.id.toString());
-    created_discount_id = create_response.id.toString();
+    io:println("Discount created successfully with id: " + createResponse.id.toString());
+    createdDiscountId = createResponse.id.toString();
 
 
     // update a discount
-    discounts:SimplePublicObjectInput payload = {
+    discounts:SimplePublicObjectInput updatePayload = {
         objectWriteTraceId: "1234",
         properties: {
             "hs_value": "17",
@@ -67,25 +67,25 @@ public function main() returns error? {
         }
     };
 
-    discounts:SimplePublicObject update_response = check hubspotClient->/[created_discount_id].patch(payload, {});
+    discounts:SimplePublicObject updateResponse = check hubspotClient->/[createdDiscountId].patch(updatePayload, {});
 
-    io:println("Discount updated successfully with id: " + update_response.id.toString());
+    io:println("Discount updated successfully with id: " + updateResponse.id.toString());
 
 
     // read a discount
-    discounts:GetCrmV3ObjectsDiscountsDiscountidQueries params = {
+    discounts:GetCrmV3ObjectsDiscountsDiscountidQueries readParams = {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    discounts:SimplePublicObjectWithAssociations response = check hubspotClient->/[created_discount_id].get({}, params);
+    discounts:SimplePublicObjectWithAssociations readResponse = check hubspotClient->/[createdDiscountId].get({}, readParams);
 
-    io:println("Discount read successfully with id: " + response.id.toString());
+    io:println("Discount read successfully with id: " + readResponse.id.toString());
 
 
     // delete a discount
-    http:Response delete_response = check hubspotClient->/[created_discount_id].delete({});
-    if (delete_response.statusCode == 204) {
-        io:println("Discount deleted successfully with id: " + created_discount_id);
+    http:Response deleteResponse = check hubspotClient->/[createdDiscountId].delete({});
+    if (deleteResponse.statusCode == 204) {
+        io:println("Discount deleted successfully with id: " + createdDiscountId);
     } else {
         io:println("Archiving failed");
     }
