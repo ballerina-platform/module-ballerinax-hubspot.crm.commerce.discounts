@@ -117,7 +117,7 @@ function testArchive() returns error? {
     test:assertEquals(delete_response.statusCode, 204, "Discount is not deleted");
 }
 
-@test:Config{
+@test:Config {
     enable: isLiveServer
 }
 function testCreate() returns error? {
