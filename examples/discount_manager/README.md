@@ -6,7 +6,7 @@ This use case demonstrates how the `hubspot.crm.commerce.discounts` API can be u
 
 ### 1. Setup the Hubspot developer account
 
-Refer to the [Setup guide](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/README.md#setup-guide) to obtain necessary credentials (client Id, client secret, Refresh tokens).
+Refer to the [Setup guide](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/README.md) to obtain necessary credentials (client Id, client secret, Refresh tokens).
 
 ### 2. Configuration
 
