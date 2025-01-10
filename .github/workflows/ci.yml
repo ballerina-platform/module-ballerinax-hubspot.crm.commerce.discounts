@@ -16,3 +16,5 @@ jobs:
     secrets: inherit
     with:
       repo-name: module-ballerinax-hubspot.crm.commerce.discounts
+      additional-test-flags: '-Pgropus=mock_tests'
+
