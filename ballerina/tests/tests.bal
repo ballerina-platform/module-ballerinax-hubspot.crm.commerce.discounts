@@ -50,7 +50,7 @@ ConnectionConfig config = {
 final Client hubspotClient = check new (config);
 
 @test:Config {
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testList() returns error? {
 
@@ -74,7 +74,7 @@ function testList() returns error? {
 
 @test:Config {
     dependsOn: [testCreate],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testRead() returns error? {
     GetCrmV3ObjectsDiscountsDiscountidQueries params = {
@@ -92,7 +92,7 @@ function testRead() returns error? {
 
 @test:Config {
     dependsOn: [testRead],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testUpdate() returns error? {
     SimplePublicObjectInput payload = {
@@ -111,7 +111,7 @@ function testUpdate() returns error? {
 
 @test:Config {
     dependsOn: [testUpdate],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testArchive() returns error? {
     http:Response deleteResponse = check hubspotClient->/[discountId].delete({});
@@ -120,7 +120,7 @@ function testArchive() returns error? {
 }
 
 @test:Config {
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testCreate() returns error? {
     hsLabel = "test_discount";
@@ -153,7 +153,7 @@ function testCreate() returns error? {
 
 @test:Config {
     dependsOn: [testBatchRead],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchUpdate() returns error? {
     BatchInputSimplePublicObjectBatchInput payload = {
@@ -213,7 +213,7 @@ function testBatchUpdate() returns error? {
 
 @test:Config {
     dependsOn: [testSearch],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchRead() returns error? {
     BatchReadInputSimplePublicObjectId payload = {
@@ -246,7 +246,7 @@ function testBatchRead() returns error? {
 
 @test:Config {
     dependsOn: [testArchive],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchCreate() returns error? {
 
@@ -310,7 +310,7 @@ function testBatchCreate() returns error? {
 
 @test:Config {
     dependsOn: [testBatchUpdate],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchArchive() returns error? {
     BatchInputSimplePublicObjectId payload = {
@@ -328,7 +328,7 @@ function testBatchArchive() returns error? {
 
 @test:Config {
     dependsOn: [testBatchCreate],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testSearch() returns error? {
     PublicObjectSearchRequest payload = {
