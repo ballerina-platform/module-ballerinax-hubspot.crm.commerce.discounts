@@ -59,7 +59,9 @@ isolated function initClient() returns Client|error {
     }, serviceUrl);
 }
 
-@test:Config
+@test:Config {
+    groups: ["live_tests", "mock_tests"]
+}
 function testList() returns error? {
 
     GetCrmV3ObjectsDiscountsQueries params = {
@@ -82,7 +84,8 @@ function testList() returns error? {
 
 @test:Config {
     dependsOn: [testCreate],
-    enable: isLiveServer
+    enable: isLiveServer,
+    groups: ["live_tests"]
 }
 function testRead() returns error? {
     GetCrmV3ObjectsDiscountsDiscountidQueries params = {
@@ -100,7 +103,8 @@ function testRead() returns error? {
 
 @test:Config {
     dependsOn: [testRead],
-    enable: isLiveServer
+    enable: isLiveServer,
+    groups: ["live_tests"]
 }
 function testUpdate() returns error? {
     SimplePublicObjectInput payload = {
@@ -119,7 +123,8 @@ function testUpdate() returns error? {
 
 @test:Config {
     dependsOn: [testUpdate],
-    enable: isLiveServer
+    enable: isLiveServer,
+    groups: ["live_tests"]
 }
 function testArchive() returns error? {
     http:Response deleteResponse = check hubspotClient->/[discountId].delete({});
@@ -128,7 +133,8 @@ function testArchive() returns error? {
 }
 
 @test:Config {
-    enable: isLiveServer
+    enable: isLiveServer,
+    groups: ["live_tests"]
 }
 function testCreate() returns error? {
     hsLabel = "test_discount";
@@ -161,7 +167,8 @@ function testCreate() returns error? {
 
 @test:Config {
     enable: isLiveServer,
-    dependsOn: [testBatchRead]
+    dependsOn: [testBatchRead],
+    groups: ["live_tests"]
 }
 function testBatchUpdate() returns error? {
     BatchInputSimplePublicObjectBatchInput payload = {
@@ -221,7 +228,8 @@ function testBatchUpdate() returns error? {
 
 @test:Config {
     enable: isLiveServer,
-    dependsOn: [testSearch]
+    dependsOn: [testSearch],
+    groups: ["live_tests"]
 }
 function testBatchRead() returns error? {
     BatchReadInputSimplePublicObjectId payload = {
@@ -254,7 +262,8 @@ function testBatchRead() returns error? {
 
 @test:Config {
     enable: isLiveServer,
-    dependsOn: [testArchive]
+    dependsOn: [testArchive],
+    groups: ["live_tests"]
 }
 function testBatchCreate() returns error? {
 
@@ -318,7 +327,8 @@ function testBatchCreate() returns error? {
 
 @test:Config {
     enable: isLiveServer,
-    dependsOn: [testBatchUpdate]
+    dependsOn: [testBatchUpdate],
+    groups: ["live_tests"]
 }
 function testBatchArchive() returns error? {
     BatchInputSimplePublicObjectId payload = {
@@ -336,7 +346,8 @@ function testBatchArchive() returns error? {
 
 @test:Config {
     enable: isLiveServer,
-    dependsOn: [testBatchCreate]
+    dependsOn: [testBatchCreate],
+    groups: ["live_tests"]
 }
 function testSearch() returns error? {
     PublicObjectSearchRequest payload = {
@@ -367,7 +378,8 @@ function testSearch() returns error? {
 
 // this is a mock test
 @test:Config {
-    enable: !isLiveServer
+    enable: !isLiveServer,
+    groups: ["mock_tests"]
 }
 function testBatchUpsert() returns error? {
 
