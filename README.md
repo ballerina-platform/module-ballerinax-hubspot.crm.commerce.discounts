@@ -21,10 +21,13 @@ You need a [HubSpot developer account](https://developers.hubspot.com/get-starte
 ### Step 1: Create HubSpot Developer Project
 1. [Login](https://app.hubspot.com/login) to HubSpot developer account.
 
-2. Create a public app by clicking on "Create app".![Building public image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/build_public_app.png)
+2. Create a public app by clicking on "Create app".
+
+   ![Building public image](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/build_public_app.png)
 
 3. Click on "Create app".
-![Creating App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/create_app.png)
+
+   ![Creating App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/create_app.png)
 
 4. Under "App Info"
    - Enter Public app name.
@@ -35,7 +38,8 @@ You need a [HubSpot developer account](https://developers.hubspot.com/get-starte
 
 - Then move to "Auth" tab.
 
-5. Setup the "Redirect URLs" with respective links. 
+5. Setup the "Redirect URLs" with respective links.
+
    ![Auth Tab](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/auth_page.png)
 
 Finally Create the app.
@@ -48,7 +52,13 @@ Navigate to "Auth" tab.
 ### Step 3: Get access token and refresh token.
 
 1. Set scopes under "Auth" tab for your app based on the [API requirements](https://developers.hubspot.com/docs/reference/api).
-   ![API Reference page](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/exmaple_api_reference.png)
+
+   ![API Reference page](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/exmaple_api_reference.png).
+   
+   Enable scopes required for HubSpot CRM Discounts API.
+   - `crm.objects.line_items.read`
+   - `crm.objects.line_items.write`
+   - `oauth`
 
 2. Under "Auth" tab under Sample install URL (OAuth) section copy the full URL.
    ```
@@ -56,6 +66,7 @@ Navigate to "Auth" tab.
    ```
 
 3. Choose the preferred account.
+
    ![Choosing Accounts](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts/main/docs/setup/resources/account_chose.png)
 
    Choose account and authorize the client.
