@@ -1,0 +1,13 @@
+[package]
+org = "wso2"
+name = "festival_discounts"
+version = "1.0.0"
+
+[build-options]
+observabilityIncluded = true
+
+[[dependency]]
+org = "ballerinax"
+name = "hubspot.crm.commerce.discounts"
+version = "1.0.0"
+repository = "local"
