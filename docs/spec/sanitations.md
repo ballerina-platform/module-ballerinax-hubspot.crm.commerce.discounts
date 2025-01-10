@@ -1,6 +1,6 @@
 _Author_:  @Pranavan-S \
 _Created_: 2024/12/17 \
-_Updated_: 2024/12/19 \
+_Updated_: 2025/01/09 \
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
@@ -8,7 +8,6 @@ _Edition_: Swan Lake
 This document records the sanitation done on top of the official OpenAPI specification from HubSpot CRM Commerce Discounts. 
 The OpenAPI specification is obtained from [Hubspot Public API Spec Collection](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/CRM/Discounts/Rollouts/424/v3/discounts.json).
 These changes are implemented to enhance the overall usability and readability of the generated client.
-
 
 1. `date-time` type mentioned in `discounts.json` was changed to `datetime`.
 2. **Change the `url` property of the `servers` object**:
