@@ -12,3 +12,4 @@ jobs:
     secrets: inherit
     with:
       repo-name: module-ballerinax-hubspot.crm.commerce.discounts
+      additional-test-flags: '-Pdisable=live_service_test'
