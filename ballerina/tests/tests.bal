@@ -18,9 +18,9 @@ import ballerina/http;
 import ballerina/oauth2;
 import ballerina/test;
 
-configurable string clientId = ?;
-configurable string clientSecret = ?;
-configurable string refreshToken = ?;
+configurable string clientId = "clientId";
+configurable string clientSecret = "clientSecret";
+configurable string refreshToken = "refreshToken";
 
 // test discount ids for batch and basic endpoints.
 string discountId = "";
