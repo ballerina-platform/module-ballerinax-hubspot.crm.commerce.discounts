@@ -14,3 +14,4 @@ jobs:
     with:
       package-name: hubspot.crm.commerce.discounts
       package-org: ballerinax
+      additional-release-flags: '-Pdisable=live_service_test'

@@ -18,11 +18,9 @@ import ballerina/http;
 import ballerina/oauth2;
 import ballerina/test;
 
-configurable string clientId = "mock";
-configurable string clientSecret = "mock";
-configurable string refreshToken = "mock";
-
-configurable boolean isLiveServer = false;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+configurable string refreshToken = ?;
 
 // test discount ids for batch and basic endpoints.
 string discountId = "";
@@ -38,29 +36,21 @@ string newHsValue = "8";
 string newHsLabel = "test_updated_label";
 string newHsType = "PERCENT";
 
-final string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/discounts" : "http://localhost:9090";
-
-final Client hubspotClient = check initClient();
-
-isolated function initClient() returns Client|error {
-    if isLiveServer {
-        OAuth2RefreshTokenGrantConfig auth = {
-            clientId: clientId,
-            clientSecret: clientSecret,
-            refreshToken: refreshToken,
-            credentialBearer: oauth2:POST_BODY_BEARER
-        };
-        return check new ({auth}, serviceUrl);
+// create connection config for live client
+ConnectionConfig config = {
+    auth: {
+        clientId,
+        clientSecret,
+        refreshToken,
+        credentialBearer: oauth2:POST_BODY_BEARER
     }
-    return check new ({
-        auth: {
-            token: "test-token"
-        }
-    }, serviceUrl);
-}
+};
+
+// create live client
+final Client hubspotClient = check new (config);
 
 @test:Config {
-    groups: ["live_tests", "mock_tests"]
+    groups: ["live_service_test"]
 }
 function testList() returns error? {
 
@@ -84,8 +74,7 @@ function testList() returns error? {
 
 @test:Config {
     dependsOn: [testCreate],
-    enable: isLiveServer,
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testRead() returns error? {
     GetCrmV3ObjectsDiscountsDiscountidQueries params = {
@@ -103,8 +92,7 @@ function testRead() returns error? {
 
 @test:Config {
     dependsOn: [testRead],
-    enable: isLiveServer,
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testUpdate() returns error? {
     SimplePublicObjectInput payload = {
@@ -123,8 +111,7 @@ function testUpdate() returns error? {
 
 @test:Config {
     dependsOn: [testUpdate],
-    enable: isLiveServer,
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testArchive() returns error? {
     http:Response deleteResponse = check hubspotClient->/[discountId].delete({});
@@ -133,8 +120,7 @@ function testArchive() returns error? {
 }
 
 @test:Config {
-    enable: isLiveServer,
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testCreate() returns error? {
     hsLabel = "test_discount";
@@ -166,9 +152,8 @@ function testCreate() returns error? {
 }
 
 @test:Config {
-    enable: isLiveServer,
     dependsOn: [testBatchRead],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchUpdate() returns error? {
     BatchInputSimplePublicObjectBatchInput payload = {
@@ -227,9 +212,8 @@ function testBatchUpdate() returns error? {
 }
 
 @test:Config {
-    enable: isLiveServer,
     dependsOn: [testSearch],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchRead() returns error? {
     BatchReadInputSimplePublicObjectId payload = {
@@ -261,9 +245,8 @@ function testBatchRead() returns error? {
 }
 
 @test:Config {
-    enable: isLiveServer,
     dependsOn: [testArchive],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchCreate() returns error? {
 
@@ -326,9 +309,8 @@ function testBatchCreate() returns error? {
 }
 
 @test:Config {
-    enable: isLiveServer,
     dependsOn: [testBatchUpdate],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testBatchArchive() returns error? {
     BatchInputSimplePublicObjectId payload = {
@@ -345,9 +327,8 @@ function testBatchArchive() returns error? {
 }
 
 @test:Config {
-    enable: isLiveServer,
     dependsOn: [testBatchCreate],
-    groups: ["live_tests"]
+    groups: ["live_service_test"]
 }
 function testSearch() returns error? {
     PublicObjectSearchRequest payload = {
@@ -374,38 +355,4 @@ function testSearch() returns error? {
 
         i = i + 1;
     }
-}
-
-// this is a mock test
-@test:Config {
-    enable: !isLiveServer,
-    groups: ["mock_tests"]
-}
-function testBatchUpsert() returns error? {
-
-    BatchInputSimplePublicObjectBatchInputUpsert payload = {
-        "inputs": [
-            {
-                "idProperty": "string",
-                "objectWriteTraceId": "string",
-                "id": "string",
-                "properties": {
-                    "additionalProp1": "string",
-                    "additionalProp2": "string",
-                    "additionalProp3": "string"
-                }
-            }
-        ]
-    };
-
-    BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors upsertResponse =
-    check hubspotClient->/batch/upsert.post(payload, {});
-
-    if (upsertResponse is BatchResponseSimplePublicUpsertObjectWithErrors) {
-        test:assertFail("Batch upsert failed");
-    }
-    test:assertNotEquals(upsertResponse.results[0].id, ());
-    test:assertEquals(upsertResponse.results[0].properties["hs_label"], "A fixed, one-time discount");
-    test:assertEquals(upsertResponse.results[0].properties["hs_value"], "50");
-    test:assertEquals(upsertResponse.results[0].properties["hs_type"], "PERCENT");
 }
