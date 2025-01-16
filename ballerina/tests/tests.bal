@@ -21,6 +21,7 @@ import ballerina/test;
 configurable string clientId = "clientId";
 configurable string clientSecret = "clientSecret";
 configurable string refreshToken = "refreshToken";
+configurable boolean enableClientOauth2 = false;
 
 // test discount ids for batch and basic endpoints.
 string discountId = "";
@@ -38,12 +39,12 @@ string newHsType = "PERCENT";
 
 // create connection config for live client
 ConnectionConfig config = {
-    auth: {
-        clientId,
-        clientSecret,
-        refreshToken,
-        credentialBearer: oauth2:POST_BODY_BEARER
-    }
+    auth: enableClientOauth2 ? {
+            clientId,
+            clientSecret,
+            refreshToken,
+            credentialBearer: oauth2:POST_BODY_BEARER
+        } : {token: "Bearer token"}
 };
 
 // create live client
