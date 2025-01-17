@@ -21,7 +21,7 @@ import ballerina/test;
 configurable string clientId = "clientId";
 configurable string clientSecret = "clientSecret";
 configurable string refreshToken = "refreshToken";
-configurable boolean enableClientOauth2 = true;
+configurable boolean enableClientOauth2 = false;
 
 // test discount ids for batch and basic endpoints.
 string discountId = "";
