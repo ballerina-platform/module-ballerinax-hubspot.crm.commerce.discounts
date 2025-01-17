@@ -142,7 +142,7 @@ SimplePublicObjectInputForCreate payload = {
    }
 };
 
-SimplePublicObject createResponse = check hubspotClient->/.post(payload, {});
+SimplePublicObject createResponse = check hubspotClient->/.post(payload);
 ```
 
 #### List all discounts
@@ -153,7 +153,7 @@ GetCrmV3ObjectsDiscountsQueries params = {
    properties: ["hs_label", "hs_value", "hs_type"]
 };
 
-CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get({}, params);
+CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get(queries=params);
 ```
 
 ## Examples
