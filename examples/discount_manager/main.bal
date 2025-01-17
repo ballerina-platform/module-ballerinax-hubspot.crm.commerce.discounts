@@ -33,7 +33,7 @@ discounts:ConnectionConfig config = {
 };
 
 // create client
-final discounts:Client hubspotClient = check new (config);
+final discounts:Client hsClient = check new (config);
 
 public function main() returns error? {
     string createdDiscountId = "";
@@ -52,7 +52,7 @@ public function main() returns error? {
         }
     };
 
-    discounts:SimplePublicObject createResponse = check hubspotClient->/.post(createPayload);
+    discounts:SimplePublicObject createResponse = check hsClient->/.post(createPayload);
 
     io:println("Discount created successfully with id: " + createResponse.id.toString());
     createdDiscountId = createResponse.id.toString();
@@ -66,7 +66,7 @@ public function main() returns error? {
         }
     };
 
-    discounts:SimplePublicObject updateResponse = check hubspotClient->/[createdDiscountId].patch(updatePayload);
+    discounts:SimplePublicObject updateResponse = check hsClient->/[createdDiscountId].patch(updatePayload);
 
     io:println("Discount updated successfully with id: " + updateResponse.id.toString());
 
@@ -76,12 +76,12 @@ public function main() returns error? {
     };
 
     discounts:SimplePublicObjectWithAssociations readResponse =
-    check hubspotClient->/[createdDiscountId].get(queries=readParams);
+    check hsClient->/[createdDiscountId].get(queries=readParams);
 
     io:println("Discount read successfully with id: " + readResponse.id.toString());
 
     // delete a discount
-    http:Response deleteResponse = check hubspotClient->/[createdDiscountId].delete();
+    http:Response deleteResponse = check hsClient->/[createdDiscountId].delete();
     if deleteResponse.statusCode == 204 {
         io:println("Discount deleted successfully with id: " + createdDiscountId);
     } else {

@@ -33,7 +33,7 @@ discounts:ConnectionConfig config = {
 };
 
 // create client
-final discounts:Client hubspotClient = check new (config);
+final discounts:Client hsClient = check new (config);
 
 public function main() returns error? {
     // store discount ids for batch endpoints
@@ -66,7 +66,7 @@ public function main() returns error? {
     };
 
     discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchCreateResponse =
-    check hubspotClient->/batch/create.post(batchCreatePayload);
+    check hsClient->/batch/create.post(batchCreatePayload);
 
     if batchCreateResponse is discounts:BatchResponseSimplePublicObjectWithErrors {
         io:println("Error occurred while creating discounts");
@@ -88,7 +88,7 @@ public function main() returns error? {
     };
 
     discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchReadResponse =
-    check hubspotClient->/batch/read.post(batchReadPayload);
+    check hsClient->/batch/read.post(batchReadPayload);
 
     if batchReadResponse is discounts:BatchResponseSimplePublicObjectWithErrors {
         io:println("Error occurred while reading discounts");
@@ -119,7 +119,7 @@ public function main() returns error? {
     };
 
     discounts:BatchResponseSimplePublicObject|discounts:BatchResponseSimplePublicObjectWithErrors batchUpdateResponse =
-    check hubspotClient->/batch/update.post(batchUpdatePayload);
+    check hsClient->/batch/update.post(batchUpdatePayload);
 
     if batchUpdateResponse is discounts:BatchResponseSimplePublicObjectWithErrors {
         io:println("Error occurred while updating discounts");
@@ -138,7 +138,7 @@ public function main() returns error? {
     };
 
     discounts:CollectionResponseWithTotalSimplePublicObjectForwardPaging searchResponse =
-    check hubspotClient->/search.post(searchPayload);
+    check hsClient->/search.post(searchPayload);
 
     foreach discounts:SimplePublicObject obj in searchResponse.results {
         io:println("Discount found from search with id: " + obj.id.toString());
@@ -153,7 +153,7 @@ public function main() returns error? {
     };
 
     http:Response batchArchiveResponse =
-    check hubspotClient->/batch/archive.post(batchArchivePayload);
+    check hsClient->/batch/archive.post(batchArchivePayload);
 
     if batchArchiveResponse.statusCode == 204 {
         io:println("Discounts archived successfully");
