@@ -47,9 +47,9 @@ function testMockBatchUpsert() returns error? {
     };
 
     BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors upsertResponse =
-    check mockClient->/batch/upsert.post(payload, {});
+    check mockClient->/batch/upsert.post(payload);
 
-    if (upsertResponse is BatchResponseSimplePublicUpsertObjectWithErrors) {
+    if upsertResponse is BatchResponseSimplePublicUpsertObjectWithErrors {
         test:assertFail("Batch upsert failed");
     }
     test:assertNotEquals(upsertResponse.results[0].id, ());
@@ -71,7 +71,7 @@ function testMockList() returns error? {
     };
 
     CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response =
-    check mockClient->/.get({}, params);
+    check mockClient->/.get(queries=params);
 
     test:assertNotEquals(response.results, [], "No discounts found");
     test:assertTrue(response.results.length() <= 10, "Limit Exceeded");
