@@ -62,7 +62,7 @@ function testList() returns error? {
     };
 
     CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response =
-    check hsClient->/.get(queries=params);
+    check hsClient->/.get(queries = params);
 
     test:assertNotEquals(response.results, [], "No discounts found");
     test:assertTrue(response.results.length() <= 10, "Limit Exceeded");
@@ -82,7 +82,7 @@ function testRead() returns error? {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
-    SimplePublicObjectWithAssociations response = check hsClient->/[discountId].get(queries=params);
+    SimplePublicObjectWithAssociations response = check hsClient->/[discountId].get(queries = params);
 
     test:assertNotEquals(response.id, (), "Discount id is not found");
     test:assertNotEquals(response.properties, (), "Discount properties are not found");

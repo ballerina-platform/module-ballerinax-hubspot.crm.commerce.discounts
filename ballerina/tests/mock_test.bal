@@ -71,7 +71,7 @@ function testMockList() returns error? {
     };
 
     CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response =
-    check mockClient->/.get(queries=params);
+    check mockClient->/.get(queries = params);
 
     test:assertNotEquals(response.results, [], "No discounts found");
     test:assertTrue(response.results.length() <= 10, "Limit Exceeded");

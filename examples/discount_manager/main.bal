@@ -76,7 +76,7 @@ public function main() returns error? {
     };
 
     discounts:SimplePublicObjectWithAssociations readResponse =
-    check hsClient->/[createdDiscountId].get(queries=readParams);
+    check hsClient->/[createdDiscountId].get(queries = readParams);
 
     io:println("Discount read successfully with id: " + readResponse.id.toString());
 
