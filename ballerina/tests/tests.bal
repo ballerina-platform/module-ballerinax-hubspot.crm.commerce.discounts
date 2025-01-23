@@ -51,7 +51,8 @@ ConnectionConfig config = {
 final Client hsClient = check new (config);
 
 @test:Config {
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testList() returns error? {
 
@@ -75,7 +76,8 @@ function testList() returns error? {
 
 @test:Config {
     dependsOn: [testCreate],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testRead() returns error? {
     GetCrmV3ObjectsDiscountsDiscountidQueries params = {
@@ -93,7 +95,8 @@ function testRead() returns error? {
 
 @test:Config {
     dependsOn: [testRead],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testUpdate() returns error? {
     SimplePublicObjectInput payload = {
@@ -112,7 +115,8 @@ function testUpdate() returns error? {
 
 @test:Config {
     dependsOn: [testUpdate],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testArchive() returns error? {
     http:Response deleteResponse = check hsClient->/[discountId].delete();
@@ -121,7 +125,8 @@ function testArchive() returns error? {
 }
 
 @test:Config {
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testCreate() returns error? {
     hsLabel = "test_discount";
@@ -154,7 +159,8 @@ function testCreate() returns error? {
 
 @test:Config {
     dependsOn: [testBatchRead],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testBatchUpdate() returns error? {
     BatchInputSimplePublicObjectBatchInput payload = {
@@ -214,7 +220,8 @@ function testBatchUpdate() returns error? {
 
 @test:Config {
     dependsOn: [testSearch],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testBatchRead() returns error? {
     BatchReadInputSimplePublicObjectId payload = {
@@ -247,7 +254,8 @@ function testBatchRead() returns error? {
 
 @test:Config {
     dependsOn: [testArchive],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testBatchCreate() returns error? {
 
@@ -311,7 +319,8 @@ function testBatchCreate() returns error? {
 
 @test:Config {
     dependsOn: [testBatchUpdate],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testBatchArchive() returns error? {
     BatchInputSimplePublicObjectId payload = {
@@ -329,7 +338,8 @@ function testBatchArchive() returns error? {
 
 @test:Config {
     dependsOn: [testBatchCreate],
-    groups: ["live_service_test"]
+    groups: ["live_service_test"],
+    enable: enableClientOauth2
 }
 function testSearch() returns error? {
     PublicObjectSearchRequest payload = {
