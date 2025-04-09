@@ -152,10 +152,9 @@ public function main() returns error? {
         ]
     };
 
-    http:Response batchArchiveResponse =
-    check hsClient->/batch/archive.post(batchArchivePayload);
+    error? batchArchiveResponse = hsClient->/batch/archive.post(batchArchivePayload);
 
-    if batchArchiveResponse.statusCode == 204 {
+    if batchArchiveResponse == () {
         io:println("Discounts archived successfully");
     } else {
         io:println("Archiving failed");

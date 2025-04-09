@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/http;
 import ballerina/oauth2;
 import ballerina/test;
 
@@ -80,7 +79,7 @@ function testList() returns error? {
     enable: enableClientOauth2
 }
 function testRead() returns error? {
-    GetCrmV3ObjectsDiscountsDiscountidQueries params = {
+    GetCrmV3ObjectsDiscountsDiscountIdQueries params = {
         properties: ["hs_label", "hs_value", "hs_type"]
     };
 
@@ -119,9 +118,9 @@ function testUpdate() returns error? {
     enable: enableClientOauth2
 }
 function testArchive() returns error? {
-    http:Response deleteResponse = check hsClient->/[discountId].delete();
+    error? deleteResponse = hsClient->/[discountId].delete();
 
-    test:assertEquals(deleteResponse.statusCode, 204, "Discount is not deleted");
+    test:assertEquals(deleteResponse, (), "Discount is not deleted");
 }
 
 @test:Config {
@@ -331,9 +330,9 @@ function testBatchArchive() returns error? {
         ]
     };
 
-    http:Response batchArchiveResponse = check hsClient->/batch/archive.post(payload);
+    error? batchArchiveResponse = hsClient->/batch/archive.post(payload);
 
-    test:assertEquals(batchArchiveResponse.statusCode, 204, "Batch archive failed");
+    test:assertEquals(batchArchiveResponse, (), "Batch archive failed");
 }
 
 @test:Config {
