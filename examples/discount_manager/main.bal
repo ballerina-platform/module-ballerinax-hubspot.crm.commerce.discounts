@@ -81,8 +81,8 @@ public function main() returns error? {
     io:println("Discount read successfully with id: " + readResponse.id.toString());
 
     // delete a discount
-    http:Response deleteResponse = check hsClient->/[createdDiscountId].delete();
-    if deleteResponse.statusCode == 204 {
+    error? deleteResponse = hsClient->/[createdDiscountId].delete();
+    if deleteResponse == () {
         io:println("Discount deleted successfully with id: " + createdDiscountId);
     } else {
         io:println("Archiving failed");
