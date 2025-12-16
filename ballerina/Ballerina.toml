@@ -5,7 +5,7 @@ name = "hubspot.crm.commerce.discounts"
 version = "2.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = ["discounts", "hubspot", "CRM", "commerce"]
+keywords = ["discounts", "commerce", "Vendor/HubSpot", "Area/CRM", "Type/Connector"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.commerce.discounts"
 
 [build-options]
