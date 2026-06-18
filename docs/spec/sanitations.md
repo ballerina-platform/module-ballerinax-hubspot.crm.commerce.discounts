@@ -1,6 +1,6 @@
 _Author_:  @Pranavan-S \
 _Created_: 2024/12/17 \
-_Updated_: 2025/01/09 \
+_Updated_: 2026/06/17 \\
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
@@ -10,6 +10,7 @@ The OpenAPI specification is obtained from [Hubspot Public API Spec Collection](
 These changes are implemented to enhance the overall usability and readability of the generated client.
 
 1. `date-time` type mentioned in `discounts.json` was changed to `datetime`.
+
 2. **Change the `url` property of the `servers` object**:
     - **Original**: `https://api.hubapi.com`
     - **Updated**: `https://api.hubapi.com/crm/v3/objects/discounts`

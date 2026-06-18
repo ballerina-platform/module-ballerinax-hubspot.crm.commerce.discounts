@@ -19,40 +19,65 @@
 
 import ballerina/http;
 
+# Standard error response structure returned by the Discounts API.
 public type StandardError record {
+    # Optional sub-category providing additional error classification.
     record {} subCategory?;
+    # Key-value map of contextual details related to the error.
     record {|string[]...;|} context;
+    # Map of relevant links associated with the error response.
     record {|string...;|} links;
+    # Unique identifier for the error instance.
     string id?;
+    # High-level category classifying the type of error.
     string category;
+    # Human-readable description of the error.
     string message;
+    # List of detailed error objects describing individual failures.
     ErrorDetail[] errors;
+    # HTTP status code or status label for the error response.
     string status;
 };
 
+# Paginated collection of associated object IDs.
 public type CollectionResponseAssociatedId record {
+    # Pagination cursors for navigating to the next or previous result page.
     Paging paging?;
+    # Array of associated object IDs returned in the response.
     AssociatedId[] results;
 };
 
+# Defines an association target object and its association types.
 public type PublicAssociationsForObject record {
+    # List of association type specifications for the target object.
     AssociationSpec[] types;
+    # Represents a reference to a public object by its unique identifier.
     PublicObjectId to;
 };
 
+# Batch operation response containing results and processing status.
 public type BatchResponseSimplePublicObject record {
+    # Timestamp when the batch operation completed.
     string completedAt;
+    # Timestamp when the batch operation was requested.
     string requestedAt?;
+    # Timestamp when the batch operation began processing.
     string startedAt;
+    # Map of supplemental links related to the batch response.
     record {|string...;|} links?;
+    # Array of discount objects returned by the batch operation.
     SimplePublicObject[] results;
+    # Current processing status of the batch request.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# A group of filters combined to narrow search results.
 public type FilterGroup record {
+    # Array of filter conditions applied within this group.
     Filter[] filters;
 };
 
+# Detailed information about a specific error encountered in a request.
 public type ErrorDetail record {
     # A specific category that contains more specific detail about the error
     string subCategory?;
@@ -82,51 +107,85 @@ public type GetCrmV3ObjectsDiscountsQueries record {
     string[] properties?;
 };
 
+# Pagination object providing a cursor for forward navigation.
 public type ForwardPaging record {
+    # Pagination cursor object for retrieving the next page of results.
     NextPage next?;
 };
 
+# A minimal object containing only the unique identifier of a record.
 public type SimplePublicObjectId record {
+    # The unique identifier of the object.
     string id;
 };
 
+# Batch upsert response including results, status, and any encountered errors.
 public type BatchResponseSimplePublicUpsertObjectWithErrors record {
+    # Timestamp indicating when the batch operation completed.
     string completedAt;
+    # Total number of errors encountered during the batch operation.
     int:Signed32 numErrors?;
+    # Timestamp indicating when the batch operation was requested.
     string requestedAt?;
+    # Timestamp indicating when the batch operation began processing.
     string startedAt;
+    # Map of relevant hypermedia links associated with the batch response.
     record {|string...;|} links?;
+    # Array of successfully upserted discount objects.
     SimplePublicUpsertObject[] results;
+    # Array of errors encountered for individual records in the batch.
     StandardError[] errors?;
+    # Current processing status of the batch upsert request.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# Input schema for reading a batch of discounts by their IDs.
 public type BatchReadInputSimplePublicObjectId record {
+    # List of properties to return along with their historical values.
     string[] propertiesWithHistory;
+    # The property name used as the unique identifier for lookups.
     string idProperty?;
+    # Array of object IDs to retrieve in the batch request.
     SimplePublicObjectId[] inputs;
+    # List of property names to include in the response.
     string[] properties;
 };
 
+# Batch operation response containing upserted discount objects with status and timing metadata.
 public type BatchResponseSimplePublicUpsertObject record {
+    # Datetime when the batch operation completed.
     string completedAt;
+    # Datetime when the batch operation was requested.
     string requestedAt?;
+    # Datetime when the batch operation started processing.
     string startedAt;
+    # Map of relevant links associated with the batch response.
     record {|string...;|} links?;
+    # Array of upserted discount objects returned by the batch operation.
     SimplePublicUpsertObject[] results;
+    # Current status of the batch operation: PENDING, PROCESSING, CANCELED, or COMPLETE.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# A property value paired with its source information and the timestamp of the last update.
 public type ValueWithTimestamp record {
+    # Identifier of the source that set this value.
     string sourceId?;
+    # The type of source that provided this value.
     string sourceType;
+    # Human-readable label describing the value's source.
     string sourceLabel?;
+    # ID of the user who last updated this value.
     int:Signed32 updatedByUserId?;
+    # The property value as a string.
     string value;
+    # Datetime when this value was last updated.
     string timestamp;
 };
 
+# Input schema for a batch operation containing a list of object IDs to process.
 public type BatchInputSimplePublicObjectId record {
+    # Array of object IDs to process in the batch operation.
     SimplePublicObjectId[] inputs;
 };
 
@@ -143,23 +202,37 @@ public type OAuth2RefreshTokenGrantConfig record {|
     string refreshUrl = "https://api.hubapi.com/oauth/v1/token";
 |};
 
+# Input schema for a batch upsert operation containing discount objects to create or update.
 public type BatchInputSimplePublicObjectBatchInputUpsert record {
+    # Array of discount objects to upsert in batch.
     SimplePublicObjectBatchInputUpsert[] inputs;
 };
 
+# Paginated collection of discount objects with a total count and forward paging cursor.
 public type CollectionResponseWithTotalSimplePublicObjectForwardPaging record {
+    # Total number of discount records matching the request.
     int:Signed32 total;
+    # Pagination object providing a cursor for forward navigation.
     ForwardPaging paging?;
+    # Array of discount objects returned in the current page.
     SimplePublicObject[] results;
 };
 
+# Represents a single discount object with its properties, timestamps, and archival status.
 public type SimplePublicObject record {
+    # Timestamp when the discount record was created.
     string createdAt;
+    # Indicates whether the discount has been archived.
     boolean archived?;
+    # Timestamp when the discount record was archived.
     string archivedAt?;
+    # Map of property names to their historical values with timestamps.
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
+    # Unique identifier of the discount record.
     string id;
+    # Map of discount property names to their current string values.
     record {|string?...;|} properties;
+    # Timestamp when the discount record was last updated.
     string updatedAt;
 };
 
@@ -207,54 +280,89 @@ public type ConnectionConfig record {|
     boolean laxDataBinding = true;
 |};
 
+# Represents a reference to a public object by its unique identifier.
 public type PublicObjectId record {
+    # Unique identifier of the referenced object.
     string id;
 };
 
+# Pagination cursors for navigating to the next or previous result page.
 public type Paging record {
+    # Pagination cursor object for retrieving the next page of results.
     NextPage next?;
+    # Pagination cursor information for navigating to the previous page of results.
     PreviousPage prev?;
 };
 
+# Request payload for searching discount objects with filters, sorting, and pagination.
 public type PublicObjectSearchRequest record {
+    # Full-text search query string to filter discounts.
     string query?;
+    # Maximum number of results to return per page.
     int:Signed32 'limit?;
+    # Cursor token for retrieving the next page of results.
     string after?;
+    # List of sort criteria to order the search results.
     string[] sorts?;
+    # List of properties to include in the response objects.
     string[] properties?;
+    # Groups of filters to apply when narrowing search results.
     FilterGroup[] filterGroups?;
 };
 
+# Input schema for upserting a single discount object, requiring an ID and property map.
 public type SimplePublicObjectBatchInputUpsert record {
+    # The property name used as the unique identifier for upsert.
     string idProperty?;
+    # Trace ID for tracking the object write operation.
     string objectWriteTraceId?;
+    # The unique identifier of the discount object to upsert.
     string id;
+    # Key-value map of discount properties to create or update.
     record {|string...;|} properties;
 };
 
+# Batch operation response containing processed discount results, status, timestamps, and any errors encountered.
 public type BatchResponseSimplePublicObjectWithErrors record {
+    # Timestamp when the batch operation completed.
     string completedAt;
+    # Total number of errors encountered during the batch operation.
     int:Signed32 numErrors?;
+    # Timestamp when the batch operation was requested.
     string requestedAt?;
+    # Timestamp when the batch operation began processing.
     string startedAt;
+    # Map of relevant links associated with the batch response.
     record {|string...;|} links?;
+    # List of successfully processed discount objects from the batch.
     SimplePublicObject[] results;
+    # List of errors encountered for individual records in the batch.
     StandardError[] errors?;
+    # Current processing status of the batch operation.
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+# Input schema for creating or updating a discount object with its properties.
 public type SimplePublicObjectInput record {
+    # Trace identifier for tracking the write operation.
     string objectWriteTraceId?;
+    # Key-value map of discount property names and their values.
     record {|string...;|} properties;
 };
 
+# Paginated collection of discount objects with their associated records.
 public type CollectionResponseSimplePublicObjectWithAssociationsForwardPaging record {
+    # Pagination object providing a cursor for forward navigation.
     ForwardPaging paging?;
+    # Array of discount objects returned in the current page.
     SimplePublicObjectWithAssociations[] results;
 };
 
+# Defines the category and type of an association between objects.
 public type AssociationSpec record {
+    # Category of the association: HubSpot-defined, user-defined, or integrator-defined.
     "HUBSPOT_DEFINED"|"USER_DEFINED"|"INTEGRATOR_DEFINED" associationCategory;
+    # Numeric identifier for the specific association type.
     int:Signed32 associationTypeId;
 };
 
@@ -272,47 +380,77 @@ public type GetCrmV3ObjectsDiscountsDiscountIdQueries record {
     string[] properties?;
 };
 
+# A discount object including its properties, metadata, and associated records.
 public type SimplePublicObjectWithAssociations record {
+    # Map of associated objects grouped by association type.
     record {|CollectionResponseAssociatedId...;|} associations?;
+    # Timestamp when the discount object was created.
     string createdAt;
+    # Indicates whether the discount object is archived.
     boolean archived?;
+    # Timestamp when the discount object was archived.
     string archivedAt?;
+    # Map of property names to their historical values with timestamps.
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
+    # Unique identifier of the discount object.
     string id;
+    # Key-value map of the discount object's current property values.
     record {|string?...;|} properties;
+    # Timestamp when the discount object was last updated.
     string updatedAt;
 };
 
+# Defines a filter condition using a property, operator, and comparison value.
 public type Filter record {
+    # Upper bound value used with the BETWEEN operator.
     string highValue?;
+    # The name of the property to filter on.
     string propertyName;
+    # A list of values to match against for multi-value operators.
     string[] values?;
+    # The single value to compare against the specified property.
     string value?;
-    # null
+    # The comparison operator used to evaluate the filter condition.
     "EQ"|"NEQ"|"LT"|"LTE"|"GT"|"GTE"|"BETWEEN"|"IN"|"NOT_IN"|"HAS_PROPERTY"|"NOT_HAS_PROPERTY"|"CONTAINS_TOKEN"|"NOT_CONTAINS_TOKEN" operator;
 };
 
+# Pagination cursor information for navigating to the previous page of results.
 public type PreviousPage record {
+    # The cursor token representing the start of the previous page.
     string before;
+    # A direct URL link to the previous page of results.
     string link?;
 };
 
+# A batch input wrapper containing an array of objects to create in bulk.
 public type BatchInputSimplePublicObjectInputForCreate record {
+    # An array of objects to be created in the batch operation.
     SimplePublicObjectInputForCreate[] inputs;
 };
 
+# A batch input wrapper containing an array of objects to update in bulk.
 public type BatchInputSimplePublicObjectBatchInput record {
+    # An array of objects to be updated in the batch operation.
     SimplePublicObjectBatchInput[] inputs;
 };
 
+# Represents a discount object returned after an upsert operation, indicating whether it was newly created.
 public type SimplePublicUpsertObject record {
+    # The timestamp when the object was originally created.
     string createdAt;
+    # Indicates whether the object has been archived.
     boolean archived?;
+    # The timestamp when the object was archived, if applicable.
     string archivedAt?;
+    # Indicates whether the object was newly created by the upsert.
     boolean 'new;
+    # A map of property values including their historical change records.
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
+    # The unique identifier of the object.
     string id;
+    # A map of the object's property names to their current values.
     record {|string...;|} properties;
+    # The timestamp when the object was last updated.
     string updatedAt;
 };
 
@@ -322,20 +460,31 @@ public type PostCrmV3ObjectsDiscountsBatchReadQueries record {
     boolean archived = false;
 };
 
+# Input object for batch updating a discount record by ID or unique property.
 public type SimplePublicObjectBatchInput record {
+    # The property name used as the unique identifier for the record.
     string idProperty?;
+    # Trace ID for tracking the write operation.
     string objectWriteTraceId?;
+    # The unique identifier of the discount record to update.
     string id;
+    # Key-value pairs of discount properties to update.
     record {|string...;|} properties;
 };
 
+# Pagination cursor object for retrieving the next page of results.
 public type NextPage record {
+    # The URL query string to fetch the next page of results.
     string link?;
+    # Cursor token representing the start of the next page.
     string after;
 };
 
+# Represents an associated object's ID and association type.
 public type AssociatedId record {
+    # The unique identifier of the associated object.
     string id;
+    # The type of association between the objects.
     string 'type;
 };
 
@@ -345,8 +494,12 @@ public type ApiKeysConfig record {|
     string privateApp;
 |};
 
+# Input object for creating a new discount record with properties and associations.
 public type SimplePublicObjectInputForCreate record {
+    # List of associations linking the new discount to other CRM objects.
     PublicAssociationsForObject[] associations;
+    # Trace ID for tracking the write operation.
     string objectWriteTraceId?;
+    # Key-value pairs of discount properties to set on creation.
     record {|string...;|} properties;
 };

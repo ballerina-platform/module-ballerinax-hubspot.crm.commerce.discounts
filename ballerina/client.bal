@@ -39,7 +39,7 @@ public isolated client class Client {
         self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
-    # Read a batch of discounts by internal ID, or unique property values
+    # Read a batch of discounts
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -59,8 +59,9 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read
+    # Retrieve a discount by ID
     #
+    # + discountId - The unique identifier of the discount record to retrieve.
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
@@ -77,8 +78,9 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Archive
+    # Archive a discount by ID
     #
+    # + discountId - The unique identifier of the discount record to delete.
     # + headers - Headers to be sent with the request 
     # + return - No content 
     resource isolated function delete [string discountId](map<string|string[]> headers = {}) returns error? {
@@ -92,8 +94,9 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Update
+    # Update a discount by ID
     #
+    # + discountId - The unique identifier of the discount record to update.
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
@@ -166,7 +169,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # List
+    # List all discounts
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -184,7 +187,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Create
+    # Create a discount
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -202,7 +205,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Create or update a batch of discounts by unique property values
+    # Upsert a batch of discounts
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -220,6 +223,8 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
+    # Search discounts
+    #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
     resource isolated function post search(PublicObjectSearchRequest payload, map<string|string[]> headers = {}) returns CollectionResponseWithTotalSimplePublicObjectForwardPaging|error {
